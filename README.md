@@ -1,68 +1,89 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 3-3 - Hangman
 
-## Available Scripts
+Today you are going to build a hangman game!
 
-In the project directory, you can run:
+You will **not** be writing this from scratch. Some of the code has been provided to you.
 
-### `yarn start`
+![Hangman Completed](./__lecture/assets/hangman_1.gif)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Setup
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Install the dependencies
 
-### `yarn test`
+```
+yarn install
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Spin up the dev environment
 
-### `yarn build`
+```
+yarn start
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Understanding the files
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Workshop
 
-### `yarn eject`
+You have been provided with a static version of the game. All of the components are there. Most of the styling is done, but you need to wire everything together with state.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Exercise 1 - Create initial game state
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open this exercise file: [exercise-1.md](__workshop/exercise-1.md)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Exercise 2 - The Start Button
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Open this exercise file: [exercise-2.md](__workshop/exercise-2.md)
 
-## Learn More
+### Exercise 3 - Get a random word
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open this exercise file: [exercise-3.md](__workshop/exercise-3.md)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Exercise 4 - Render the Word
 
-### Code Splitting
+Open this exercise file: [exercise-4.md](__workshop/exercise-4.md)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Exercise 5 - Dead Letters
 
-### Analyzing the Bundle Size
+Open this exercise file: [exercise-5.md](__workshop/exercise-5.md)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Exercise 6 - The Keyboard
 
-### Making a Progressive Web App
+Open this exercise file: [exercise-6.md](__workshop/exercise-6.md)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Exercise 7 - `usedLetters`
 
-### Advanced Configuration
+Open this exercise file: [exercise-7.md](__workshop/exercise-7.md)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+---
 
-### Deployment
+<center>🟡 - Minimally complete workshop (75%) - 🟡</center>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+---
 
-### `yarn build` fails to minify
+### Exercise 8 - Handle the User Guess
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Open this exercise file: [exercise-8.md](__workshop/exercise-8.md)
+
+### Exercise 9 - Resetting the Game
+
+Open this exercise file: [exercise-9.md](__workshop/exercise-9.md)
+
+### Exercise 10 - Ending the game
+
+Open this exercise file: [exercise-10.md](__workshop/exercise-10.md)
+
+---
+
+<center>🟢 - Complete workshop (100%) - 🟢</center>
+
+---
+
+### Exercise 11 - Show Game End Message
+
+Open this exercise file: [exercise-11.md](__workshop/exercise-11.md)
+
+### Exercise 12 - Hanging the Man!
+
+Open this exercise file: [exercise-12.md](__workshop/exercise-12.md)

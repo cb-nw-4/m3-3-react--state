@@ -14,7 +14,7 @@ import words from "../data/words.json";
 const initialGameState = { started: false, over: false, win: false };
 const App = () => {
   const [game, setGame] = useState(initialGameState);
-  const [word, setWord] = useState({ str: "" });
+  const [word, setWord] = useState({ str: "", revealed: [] });
   const [status, setStatus] = useState('Start');
 
   const handleStart = () => {
@@ -29,7 +29,8 @@ const App = () => {
   const getNewWord = () => {
     if(!word.str){
       let randomWord = words[Math.floor(Math.random() * words.length)];
-      setWord({str: randomWord});
+
+      setWord({ str: randomWord, revealed: randomWord.split('').map((letter) => {return letter = ''}) });
     }
     
   }
@@ -48,7 +49,7 @@ const App = () => {
           <Deadman />
           <RightColumn>
             <DeadLetters />
-            <TheWord />
+            <TheWord word={word}/>
           </RightColumn>
         </Container>
         <Keyboard />

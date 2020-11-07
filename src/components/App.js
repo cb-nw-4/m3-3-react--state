@@ -17,7 +17,7 @@ const App = () => {
 
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({str: ""});
-
+  const [wrongGuesses, setWrongGuesses] = useState([]);
  
 
   const getNewWord = ()=>{
@@ -56,7 +56,7 @@ const App = () => {
           <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
+            <DeadLetters wrongGuesses={wrongGuesses} />
             <TheWord  word ={word}/>
           </RightColumn>
           </Container>

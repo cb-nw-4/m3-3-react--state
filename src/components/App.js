@@ -7,16 +7,22 @@ import Deadman from "./DeadMan";
 import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
+import words from "../data/words.json"
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
 const initialGameState = { started: false, over: false, win: false };
-
 const App = () => {
   const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({str: ''});
   const handleStart = () => {
-    setGame({started: !game.started });
+    setGame({...game, started: !game.started });
+    getNewWord()
+  }
+  const getNewWord = () => {
+    const randomWord = Math.floor(Math.random() * words.length)
+    setWord({str: words[randomWord]})
   }
   return (
     <Wrapper>

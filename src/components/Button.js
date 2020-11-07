@@ -7,6 +7,7 @@ const Button = ({ onClickFunc, children }) => (
   <Wrapper onClick={onClickFunc}>{children}</Wrapper>
 );
 
+
 const Wrapper = styled.button`
   background: #fff;
   border: 1px solid ${colors.fuchsia};

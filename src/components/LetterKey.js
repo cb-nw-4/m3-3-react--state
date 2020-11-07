@@ -5,14 +5,16 @@ import { colors } from "./GlobalStyles";
 import letters from '../data/letters.json';
 
 
-const LetterKey = () => {
+const LetterKey = ({usedLetters}) => {
+  console.log(usedLetters);
 return (
-  // <Wrapper>{letters.map((letter) => {
-  //   return <p>{letter}</p>;
-  // })}</Wrapper>
     <>
     { letters.map((letter) => {
-      return <Wrapper>{letter}</Wrapper>
+      if(usedLetters.includes(letter)){
+      return <Wrapper disabled>{letter}</Wrapper>
+      } else {
+        return <Wrapper>{letter}</Wrapper>
+      };
     }) }
     </>
 );

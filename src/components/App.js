@@ -17,6 +17,7 @@ const App = () => {
   const [word, setWord] = useState({ str: "", revealed: [] });
   const [status, setStatus] = useState('Start');
   const [wrongGuesses, setWrongGuesses] = useState(['e', 'b', 'd']);
+  const [usedLetters, setUsedLetters] = useState(["v", "t"]);
 
   const handleStart = () => {
     setGame({...game, started:!game.started});
@@ -53,7 +54,7 @@ const App = () => {
             <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedLetters={usedLetters}/>
       </>
       )}
     </Wrapper>

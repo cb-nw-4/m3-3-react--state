@@ -5,9 +5,9 @@ import LetterKey from "./LetterKey";
 import { colors, contentWidth } from "./GlobalStyles";
 
 
-const Keyboard = () => (
+const Keyboard = ({ usedLetters }) => (
   <Wrapper>
-    <LetterKey />
+    <LetterKey usedLetters={usedLetters}/>
   </Wrapper>
 );
 

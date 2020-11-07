@@ -14,12 +14,13 @@ const initialGameState = { started: false, over: false, win: false };
 
 const App = () => {
   const [game, setGame] = useState(initialGameState);
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button onClickFunc={() => handleStart(game, setGame)}>Start</Button>
         <Button>btn 2</Button>
       </Nav>
       {game.started && (
@@ -37,6 +38,11 @@ const App = () => {
     </Wrapper>
   );
 };
+
+const handleStart = (game, setGame) => {
+  setGame({ ...game, started: !game.started });
+};
+
 
 const Wrapper = styled.div`
   background-color: ${colors.blue};

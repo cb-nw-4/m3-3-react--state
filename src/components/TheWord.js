@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = ({word}) => <Wrapper>
+
+  {word.revealed.map(char => (char ==='') ? ' ____ '  : <Span>{ char }</Span>)}
+      
+  </Wrapper>;
 
 const Wrapper = styled.p`
   font-size: 20px;

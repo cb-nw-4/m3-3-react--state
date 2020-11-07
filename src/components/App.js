@@ -11,7 +11,7 @@ import words from '../data/words.json';
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const initialGameState = { started: false, over: false, win: false };
+const initialGameState = { started: false, pause: false, over: false, win: false };
 
 const App = () => {
 
@@ -22,7 +22,8 @@ const App = () => {
 
   const getNewWord = ()=>{
     const str= words[Math.floor(Math.random() * words.length)];
-    setWord({...word, str});
+    const revealed = str.split("").map (char => char ="")
+    setWord({...word, str, revealed});
   }
 
 
@@ -33,8 +34,7 @@ const App = () => {
   };
 
   const handlePause = () => {
-    setGame({ ...game, over: !game.over });
-    getNewWord();
+    setGame({ ...game, pause: !game.pause });
   };
 
   return (
@@ -45,7 +45,8 @@ const App = () => {
         { !game.started && (<Button onClickFunc ={handleStart} >Start</Button>)}
 
 
-        { game.started && (<Button onClickFunc={handlePause}>Pause</Button>)}
+        { game.started && (<Button onClickFunc={handlePause}>{game.pause ? 'continue' : 'pause'}</Button>)}
+
         
         <Button>btn 2</Button>
       </Nav>
@@ -56,7 +57,7 @@ const App = () => {
           <Deadman />
           <RightColumn>
             <DeadLetters />
-            <TheWord />
+            <TheWord  word ={word}/>
           </RightColumn>
           </Container>
           <Keyboard />

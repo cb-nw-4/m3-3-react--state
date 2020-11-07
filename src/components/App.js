@@ -8,6 +8,7 @@ import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 import words from '../data/words.json';
+import letters from '../data/letters.json'
 
 import { colors, contentWidth } from "./GlobalStyles";
 
@@ -60,7 +61,7 @@ const App = () => {
             <TheWord  word ={word}/>
           </RightColumn>
           </Container>
-          <Keyboard />
+          <Keyboard letters={letters}/>
         </>
 
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -9,16 +9,47 @@ import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import words from "../data/words.json";
 
 const App = () => {
+  const initialGameState = { started: false, over: false, win: false };
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "" });
+  const [startLabel, setStartLabel] = useState("Start");
+
+  const handleStart = () => {
+    setGame( { ...game, started: !game.started } );
+    StartButtonLabel();
+    if (word.str === "")
+      getNewWord();
+  };
+
+  const getNewWord = () => {
+    setWord( { ...word, str: words[Math.floor(Math.random() * words.length)]} ); 
+  };
+
+  //might no be a state here for the label^
+  const StartButtonLabel = () => {  
+    if (game.over)  {
+      setStartLabel("Start");
+      return;
+    }
+
+    if (!game.started)
+      setStartLabel("Pause");
+    else 
+      setStartLabel("Continue");
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button onClickFunc={handleStart}>{startLabel}</Button>
         <Button>btn 2</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
@@ -29,6 +60,7 @@ const App = () => {
         </Container>
         <Keyboard />
       </>
+      )}
     </Wrapper>
   );
 };

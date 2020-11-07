@@ -15,7 +15,7 @@ import { colors, contentWidth } from "./GlobalStyles";
 const initialGameState = { started: false, over: false, win: false };
 const App = () => {
   const [game, setGame] = useState(initialGameState);
-  const [word, setWord] = useState({ str: "" });
+  const [word, setWord] = useState({ str: "", revealed: [] });
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
     {
@@ -24,14 +24,18 @@ const App = () => {
   };
   const getNewWord = () => {
     const randomWord = Math.floor(Math.random() * words.length);
-    setWord({ str: words[randomWord] });
+    const wordArr = words[randomWord].split('').map(el => {
+      return el = ''
+    })
+    setWord({ str: words[randomWord], revealed: wordArr});
   };
   let buttonText = "Start";
-  if (game.over || game.win === true) {
-    buttonText = "Clear";
-  } else if (game.started === true) {
+  if (game.started === true && word.str.length > 0) {
+    buttonText = "Pause";
+  } else if (word.str.length > 0) {
     buttonText = "Continue";
   }
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -46,7 +50,7 @@ const App = () => {
             <Deadman />
             <RightColumn>
               <DeadLetters />
-              <TheWord />
+              <TheWord word={word}/>
             </RightColumn>
           </Container>
           <Keyboard />

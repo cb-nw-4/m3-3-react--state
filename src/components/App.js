@@ -9,17 +9,37 @@ import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import words from "../data/words.json";
 
 const initialGameState = { started: false, over: false, win: false };
 const App = () => {
   const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "" });
+  const [status, setStatus] = useState('Start');
+
+  const handleStart = () => {
+    setGame({...game, started:!game.started});
+    getNewWord();
+    setStatus('Pause');
+    if(status === 'Pause'){
+      setStatus('Continue');
+    }
+  }
+
+  const getNewWord = () => {
+    if(!word.str){
+      let randomWord = words[Math.floor(Math.random() * words.length)];
+      setWord({str: randomWord});
+    }
+    
+  }
   
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button onClickFunc={handleStart} >{status}</Button>
         <Button>btn 2</Button>
       </Nav>
       {game.started && (
@@ -37,6 +57,8 @@ const App = () => {
     </Wrapper>
   );
 };
+
+
 
 const Wrapper = styled.div`
   background-color: ${colors.blue};

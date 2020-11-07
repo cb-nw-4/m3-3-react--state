@@ -4,10 +4,14 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({letters}) => {
+const LetterKey = ({letters, usedLetters}) => {
+
   return (
     letters.map(letter => 
-      <Wrapper>{letter}</Wrapper>))
+      (usedLetters.includes(letter)) ? 
+          <Wrapper disabled={true}>{letter}</Wrapper> : 
+          <Wrapper disabled={false}>{letter}</Wrapper>
+      ))
 };
 
 const Wrapper = styled.button`

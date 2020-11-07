@@ -19,7 +19,7 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({str: ""});
   const [wrongGuesses, setWrongGuesses] = useState([]);
- 
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const getNewWord = ()=>{
     const str= words[Math.floor(Math.random() * words.length)];
@@ -61,7 +61,7 @@ const App = () => {
             <TheWord  word ={word}/>
           </RightColumn>
           </Container>
-          <Keyboard letters={letters}/>
+          <Keyboard letters={letters} usedLetters={usedLetters}/>
         </>
 
       )}

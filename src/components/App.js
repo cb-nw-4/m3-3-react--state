@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from 'react'
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -10,7 +11,10 @@ import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, over: false, win: false };
+
 const App = () => {
+  const [game, setGame] = useState(initialGameState);
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -19,16 +23,18 @@ const App = () => {
         <Button>btn 1</Button>
         <Button>btn 2</Button>
       </Nav>
-      <>
-        <Container>
-          <Deadman />
-          <RightColumn>
-            <DeadLetters />
-            <TheWord />
-          </RightColumn>
-        </Container>
-        <Keyboard />
-      </>
+      {game.started && (
+        <>
+          <Container>
+            <Deadman />
+            <RightColumn>
+              <DeadLetters />
+              <TheWord />
+            </RightColumn>
+          </Container>
+          <Keyboard />
+        </>
+      )}
     </Wrapper>
   );
 };

@@ -1,7 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = (props) => {
+  return (
+    <Wrapper>
+      {props.words.revealed.map((element) => {
+        return element.length>0 ? element : <Span line={true}/>
+      })
+      }
+    </Wrapper>
+  )};
 
 const Wrapper = styled.p`
   font-size: 20px;

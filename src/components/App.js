@@ -10,6 +10,7 @@ import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 import words from "../data/words.json";
+import letters from "../data/letters.json";
 
 const App = () => {
   const initialGameState = { started: false, over: false, win: false };
@@ -24,7 +25,7 @@ const App = () => {
     if (word.str === "")
       getNewWord();
   };
-
+  
   const getNewWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
     const newArr = Array(newWord.length).fill('');
@@ -61,7 +62,7 @@ const App = () => {
             <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard letters={letters}/>
       </>
       )}
     </Wrapper>

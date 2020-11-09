@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -6,29 +6,62 @@ import Deadman from "./DeadMan";
 import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
+import words from "../data/words.json";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
 const App = () => {
+  const initialGameState = { started: false, over: false, win: false };
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [gameStart, toggle] = useState(true);
+  const [start, setStart] = useState(true);
+  if (start === true) {
+    setStart("Start");
+  }
+  const getNewWord = () => {
+    let newWord = words[Math.floor(Math.random() * words.length)];
+    setWord({
+      str: newWord,
+      revealed: newWord.split("").map(() => ""),
+    });
+
+  };
+
+  const handleStart = () => {
+    if (start !== true) {
+      setStart("Pause");
+    }
+    if (word.str === "") {
+      setGame({ ...game, started: !game.started });
+      getNewWord();
+    }
+    toggle(!gameStart);
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        <Button id="mainButton" onClickFunc={handleStart} gameStart={gameStart}>
+          {start}
+        </Button>
+        <Button>Restart</Button>
       </Nav>
-      <>
-        <Container>
-          <Deadman />
-          <RightColumn>
-            <DeadLetters />
-            <TheWord />
-          </RightColumn>
-        </Container>
-        <Keyboard />
-      </>
+      {game.started && (
+        <>
+          <Container>
+            <Deadman />
+            <RightColumn>
+              <DeadLetters />
+              <TheWord word={word} />
+            </RightColumn>
+          </Container>
+          <Keyboard />
+        </>
+      )}
     </Wrapper>
   );
 };

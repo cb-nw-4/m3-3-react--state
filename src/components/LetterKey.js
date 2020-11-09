@@ -56,11 +56,3 @@ const Wrapper = styled.button`
 `;
 
 export default LetterKey;
-
-// {letters.map(elem=>{
-//   (props.disabled.indexOf(elem)) ? (
-//   <Wrapper activeClassName="dis">
-//     {elem}
-//     </Wrapper>) :
-//     <Wrapper>{elem}</Wrapper>
-// })}

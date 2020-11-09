@@ -18,6 +18,7 @@ const App = () => {
   const [word, setWord] = useState({ str: "", revealed: [] });
   const [startLabel, setStartLabel] = useState("Start");
   const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const handleStart = () => {
     setGame( { ...game, started: !game.started } );
@@ -25,7 +26,7 @@ const App = () => {
     if (word.str === "")
       getNewWord();
   };
-  
+
   const getNewWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
     const newArr = Array(newWord.length).fill('');
@@ -62,7 +63,7 @@ const App = () => {
             <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard letters={letters}/>
+        <Keyboard letters={letters} usedLetters={usedLetters}/>
       </>
       )}
     </Wrapper>

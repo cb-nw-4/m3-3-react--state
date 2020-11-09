@@ -20,6 +20,21 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
+  const handleGuess = (ltr) => {
+    console.log("isClassedf");
+    setUsedLetters([...usedLetters, ltr]);
+
+    const ltrIndex = word.str.search(ltr);
+    if (ltrIndex === -1){
+      setWrongGuesses([...wrongGuesses, ltr]);
+    }
+    else {
+      let revealedArrCopy = [...word.revealed];
+      revealedArrCopy[ltrIndex] = ltr;
+      setWord({...word, revealed: revealedArrCopy});
+    }
+  };
+
   const handleStart = () => {
     setGame( { ...game, started: !game.started } );
     StartButtonLabel();
@@ -63,7 +78,7 @@ const App = () => {
             <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard letters={letters} usedLetters={usedLetters}/>
+        <Keyboard letters={letters} usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
       )}
     </Wrapper>

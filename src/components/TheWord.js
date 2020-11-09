@@ -2,12 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const TheWord = ({word}) => {
+  let num = 0;
   return (
     <Wrapper>
-      {word.revealed.map((letter)=>{
-      return <Span line={letter === ""}>{letter}</Span>
-    })}
-    </Wrapper>)};
+      {word.revealed.map((letter, index)=>{
+        return <Span key={num++} line={letter === ""}>{letter}</Span>
+      })}
+    </Wrapper>
+    );
+  };
 
 const Wrapper = styled.p`
   font-size: 20px;

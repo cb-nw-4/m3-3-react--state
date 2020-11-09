@@ -2,17 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 const TheWord = (props) => {
+  //console.log(props);
   return (
     <Wrapper>
       {props.words.revealed.map((element) => {
-        return element.length>0 ? element : <Span line={true}/>
+        return element.length>0 ? element : <Span line/>
       })
       }
     </Wrapper>
   )};
 
 const Wrapper = styled.p`
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 700;
   margin: 0 auto;
   display: flex;

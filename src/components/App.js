@@ -8,6 +8,7 @@ import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 import words from "../data/words.json";
+import letters from "../data/letters.json"
 
 import { colors, contentWidth } from "./GlobalStyles";
 const initialGameState = { started: false, over: false, win: false };
@@ -18,6 +19,10 @@ const App = () => {
     str: "",
     revealed: [],
   });
+
+  const [wrongGuesses, setWrongGuesses] = useState(["k","l","p","d"]);
+
+  const [usedLetters, setUsedLetters] = useState(["v", "t", "n"]);
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -48,11 +53,11 @@ const App = () => {
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
+            <DeadLetters guesses={wrongGuesses}/>
             <TheWord words={word}/>
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedletters={usedLetters}/>
         </>
       )}
     </Wrapper>

@@ -14,7 +14,7 @@ import words from "../data/words.json";
 const App = () => {
   const initialGameState = { started: false, over: false, win: false };
   const [game, setGame] = useState(initialGameState);
-  const [word, setWord] = useState({ str: "" });
+  const [word, setWord] = useState({ str: "", revealed: [] });
   const [startLabel, setStartLabel] = useState("Start");
 
   const handleStart = () => {
@@ -25,7 +25,9 @@ const App = () => {
   };
 
   const getNewWord = () => {
-    setWord( { ...word, str: words[Math.floor(Math.random() * words.length)]} ); 
+    const newWord = words[Math.floor(Math.random() * words.length)];
+    const newArr = Array(newWord.length).fill('');
+    setWord( { ...word, str: newWord, revealed: newArr} ); 
   };
 
   //might no be a state here for the label^
@@ -55,7 +57,7 @@ const App = () => {
           <Deadman />
           <RightColumn>
             <DeadLetters />
-            <TheWord />
+            <TheWord word={word} />
           </RightColumn>
         </Container>
         <Keyboard />

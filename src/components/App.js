@@ -10,15 +10,21 @@ import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, over: false, win: false };
+
 const App = () => {
+
+  const [game, setGame] = React.useState(initialGameState);
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button>Start</Button>
         <Button>btn 2</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
@@ -29,6 +35,7 @@ const App = () => {
         </Container>
         <Keyboard />
       </>
+    )}
     </Wrapper>
   );
 };

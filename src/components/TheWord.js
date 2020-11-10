@@ -1,7 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = (props) => {
+  return (
+    <Wrapper>
+      {props.word.map(char => {
+
+        if (char.length === 0) {
+          return <Span line="true" />
+        } else {
+          return <Span key={Date.now() * Math.round(Math.random() * 1000000 + 1)}>{char}</Span>;
+        }
+      })}
+    </Wrapper>);
+}
 
 const Wrapper = styled.p`
   font-size: 20px;

@@ -1,13 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
 
 import { colors } from "./GlobalStyles";
 
+
+
+
 const DeadLetters = ({}) => {
+  const [wrongGuesses, setWrongGuesses] = useState(['a','b','c'])
   return (
     <Wrapper>
       <h2>Dead Letters</h2>
-      <List></List>
+      <List>
+        {wrongGuesses.map((el) => {
+          return <Letter>{el}</Letter>
+        })}
+      </List>
     </Wrapper>
   );
 };

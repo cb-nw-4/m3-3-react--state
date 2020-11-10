@@ -4,9 +4,9 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
+const Keyboard = (props) => (
   <Wrapper>
-    <LetterKey />
+    <LetterKey usedLetters={props.usedLetters} setUsedLetters={props.setUsedLetters} />
   </Wrapper>
 );
 

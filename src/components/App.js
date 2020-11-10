@@ -16,6 +16,7 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({str: '', revealed: []});
   const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const getNewWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
@@ -47,11 +48,11 @@ const App = () => {
           <Container>
             <Deadman />
             <RightColumn>
-              <DeadLetters wrongGuesses={wrongGuesses}/>
+              <DeadLetters wrongGuesses={wrongGuesses} setWrongGuesses={setWrongGuesses} />
               <TheWord word={word['revealed']}/>
             </RightColumn>
           </Container>
-          <Keyboard />
+          <Keyboard usedLetters={usedLetters} setUsedLetters={setUsedLetters} />
         </>
       )}
     </Wrapper>

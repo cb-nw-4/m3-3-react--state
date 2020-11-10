@@ -5,11 +5,16 @@ import { colors } from "./GlobalStyles";
 import letters from '../data/letters.json';
 import RandomKey from './RandomKey';
 
-const LetterKey = ({}) => {
+const LetterKey = (props) => {
   return (
     <>
     {letters.map(letter => {
-      return <Wrapper key={RandomKey()}>{letter}</Wrapper>
+
+      if (props.usedLetters.indexOf(letter) === -1) {
+        return <Wrapper key={RandomKey()}>{letter}</Wrapper>
+      } else {
+        return <Wrapper key={RandomKey()} disabled>{letter}</Wrapper>
+      }
     })}
     </>);
 };

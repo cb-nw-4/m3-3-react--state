@@ -11,9 +11,9 @@ const LetterKey = (props) => {
     {letters.map(letter => {
 
       if (props.usedLetters.indexOf(letter) === -1) {
-        return <Wrapper key={RandomKey()}>{letter}</Wrapper>
+        return <Wrapper value={letter} onClick={e => props.handleGuess(e.target.value)} key={RandomKey()}>{letter}</Wrapper>
       } else {
-        return <Wrapper key={RandomKey()} disabled>{letter}</Wrapper>
+        return <Wrapper value={letter} onClick={e => props.handleGuess(e.target.value)} key={RandomKey()} disabled>{letter}</Wrapper>
       }
     })}
     </>);

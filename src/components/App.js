@@ -35,6 +35,22 @@ const App = () => {
     }
   }
 
+  const handleGuess = (ltr) => {
+    setUsedLetters([...usedLetters, ltr]);
+
+    if (word.str.indexOf(ltr) === -1) {
+      setWrongGuesses([...wrongGuesses, ltr]);
+    } else {
+      let revealedLetters = word.revealed;
+      word.str.split('').forEach((letter, index) => {
+        if (letter === ltr) {
+          revealedLetters[index] = ltr;
+        }
+      });
+      setWord({...word, revealed: revealedLetters});
+    }
+  }
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -52,7 +68,7 @@ const App = () => {
               <TheWord word={word['revealed']}/>
             </RightColumn>
           </Container>
-          <Keyboard usedLetters={usedLetters} setUsedLetters={setUsedLetters} />
+          <Keyboard usedLetters={usedLetters} handleGuess={handleGuess} />
         </>
       )}
     </Wrapper>

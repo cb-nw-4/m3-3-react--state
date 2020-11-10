@@ -6,7 +6,7 @@ import { colors, contentWidth } from "./GlobalStyles";
 
 const Keyboard = (props) => (
   <Wrapper>
-    <LetterKey usedLetters={props.usedLetters} setUsedLetters={props.setUsedLetters} />
+    <LetterKey usedLetters={props.usedLetters} setUsedLetters={props.setUsedLetters} handleGuess={props.handleGuess} />
   </Wrapper>
 );
 

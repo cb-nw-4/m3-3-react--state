@@ -2,12 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
+import RandomKey from "./RandomKey";
 
-const DeadLetters = ({}) => {
+const DeadLetters = (props) => {
   return (
     <Wrapper>
       <h2>Dead Letters</h2>
-      <List></List>
+      <List>
+        {props.wrongGuesses.map(wrongGuess => {
+          return <Letter key={RandomKey()}>{wrongGuess}</Letter>;
+        })}
+      </List>
     </Wrapper>
   );
 };

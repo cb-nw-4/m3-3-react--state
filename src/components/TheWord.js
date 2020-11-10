@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import RandomKey from './RandomKey';
 
 const TheWord = (props) => {
   return (
@@ -7,9 +8,9 @@ const TheWord = (props) => {
       {props.word.map(char => {
 
         if (char.length === 0) {
-          return <Span line="true" />
+          return <Span key={RandomKey()} line="true" />
         } else {
-          return <Span key={Date.now() * Math.round(Math.random() * 1000000 + 1)}>{char}</Span>;
+          return <Span key={RandomKey()}>{char}</Span>;
         }
       })}
     </Wrapper>);

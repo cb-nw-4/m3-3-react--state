@@ -17,20 +17,26 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({str: ""});
   const [buttonText, setButtonText] = useState("Start");
+  const [wrongGuesses, setWrongGuesses] = useState(["a", "b"]);
 
   const handleStart = (game, setGame) => {
     setGame({ ...game, started: !game.started });
     if (word.str === "") {
       getNewWord(words);
+      console.log(word);
     }
   };
 
   const getNewWord = (words) => {
     let str = words[Math.floor(Math.random() * words.length)];
-    setWord({ ...word, str })
-    console.log(str);
+    let emptyStrings = []
+    for (let i = 0; i < str.length; i++) {
+      emptyStrings.push("");
+    }
+    setWord({ ...word, str: str, revealed: emptyStrings });
   };
 
+  
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -46,8 +52,8 @@ const App = () => {
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word} />
           </RightColumn>
         </Container>
         <Keyboard />

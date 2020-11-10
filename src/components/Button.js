@@ -1,12 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import App from "./App";
 
 import { colors } from "./GlobalStyles";
 
-// const handleStart = () => {
-//   setGame({ ...game, started: !game.started });
-// };
 
 const Button = ({ onClickFunc, handleStart, children }) => (
   <Wrapper onClick={onClickFunc}>{children}</Wrapper>

@@ -42,11 +42,13 @@ const App = () => {
       setWrongGuesses([...wrongGuesses, ltr]);
     } else {
       let revealedLetters = word.revealed;
+
       word.str.split('').forEach((letter, index) => {
         if (letter === ltr) {
           revealedLetters[index] = ltr;
         }
       });
+      
       setWord({...word, revealed: revealedLetters});
     }
   }

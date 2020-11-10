@@ -20,20 +20,26 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
-  const handleGuess = (ltr) => {
-    console.log("isClassedf");
+  const handleGuess = (ltr) => {   
     setUsedLetters([...usedLetters, ltr]);
-
-    const ltrIndex = word.str.search(ltr);
-    if (ltrIndex === -1){
-      setWrongGuesses([...wrongGuesses, ltr]);
-    }
-    else {
-      let revealedArrCopy = [...word.revealed];
-      revealedArrCopy[ltrIndex] = ltr;
-      setWord({...word, revealed: revealedArrCopy});
-    }
+ 
+    let isGoodGuess = false;
+    const newRevealedArr = word.revealed.map((letter, index)=>{
+        if (ltr === word.str[index]) {
+          isGoodGuess = true;
+          return ltr;
+        }          
+        return letter;
+    });
+   
+    isGoodGuess ? setWord({...word, revealed: newRevealedArr}) : setWrongGuesses([...wrongGuesses, ltr]);   
   };
+
+  const handleReset = () => {
+    setWrongGuesses([]);
+    setUsedLetters([]);
+    getNewWord();
+  }
 
   const handleStart = () => {
     setGame( { ...game, started: !game.started } );
@@ -67,7 +73,7 @@ const App = () => {
       <Header />
       <Nav>
         <Button onClickFunc={handleStart}>{startLabel}</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleReset}>Reset</Button>
       </Nav>
       {game.started && (
       <>

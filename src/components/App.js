@@ -35,6 +35,13 @@ const App = () => {
     }
   }
 
+  const handleReset = () => {
+    getNewWord();
+    setGame({...game, over: false, win: false});
+    setWrongGuesses([]);
+    setUsedLetters([]);
+  }
+
   const handleGuess = (ltr) => {
     setUsedLetters([...usedLetters, ltr]);
 
@@ -48,7 +55,7 @@ const App = () => {
           revealedLetters[index] = ltr;
         }
       });
-      
+
       setWord({...word, revealed: revealedLetters});
     }
   }
@@ -58,8 +65,8 @@ const App = () => {
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button onClickFunc={handleStart}>{(game.started ? 'PAUSE' : 'START')}</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleStart} >{(game.started ? 'PAUSE' : 'START')}</Button>
+        <Button onClickFunc={handleReset} >RESET</Button>
       </Nav>
       {game.started && (
         <>

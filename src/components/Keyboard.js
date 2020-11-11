@@ -4,12 +4,6 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
-  <Wrapper>
-    <LetterKey />
-  </Wrapper>
-);
-
 const Wrapper = styled.div`
   background: ${colors.yellow};
   border-radius: 4px;
@@ -21,5 +15,16 @@ const Wrapper = styled.div`
   max-width: ${contentWidth};
   min-width: 320px;
 `;
+
+const Keyboard = (props) => {
+  return(
+    <Wrapper>
+    <LetterKey 
+      usedLetters={props.usedLetters}
+      handleGuess={props.handleGuess}
+    />
+  </Wrapper>
+  )
+}
 
 export default Keyboard;

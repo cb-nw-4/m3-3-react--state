@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -21,15 +21,28 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
+  
+  const drawHangMan = useCallback((strokeStyle) => {
+      wrongGuesses.forEach((letter, index) => {
+      const body = document.querySelector(`.${bodyParts[index]}`);
+      if (body !== null && body.style.stroke !== strokeStyle)
+        body.style.stroke = strokeStyle;
+    }); 
+  }, [wrongGuesses] );
+
+  useEffect(() => {
+    if (game.started) {  
+     drawHangMan("inherit");
+    }
+  }, [game.started, drawHangMan]); 
+
   const handleEndGame = (win) => {
     setGame({...game, over: true, win: win});    
   };
 
   const handleNewGame = () => {    
-    setGame({...game, started: false, over: false, win: false}); 
-    setWrongGuesses([]);
-    setUsedLetters([]);
-    getNewWord();
+    setGame({...game, started: false, over: false, win: false});
+    handleReset();
     StartButtonLabel();    
   };
 
@@ -45,29 +58,28 @@ const App = () => {
         return letter;
     });
    
-    if (isGoodGuess)
-      setWord({...word, revealed: newRevealedArr})
-    else {
-      setWrongGuesses([...wrongGuesses, ltr]);   
-      const body = document.querySelector(`.${bodyParts[wrongGuesses.length]}`);      
-      body.style.stroke ="inherit";
+    if (isGoodGuess) {
+      setWord({...word, revealed: newRevealedArr});
+      if (newRevealedArr.join("") === word.str) 
+        handleEndGame(true);
     }
-   
-    if (newRevealedArr.join("") === word.str) 
-      handleEndGame(true);    
-    else if (wrongGuesses.length === 9 && !isGoodGuess)
-      handleEndGame(false)
+    else {
+      setWrongGuesses([...wrongGuesses, ltr]);        
+      if (wrongGuesses.length === 9)
+        handleEndGame(false);
+    }   
   };
 
-    const handleReset = () => {    
+  const handleReset = () => {   
+    drawHangMan("transparent");   
     setWrongGuesses([]);
     setUsedLetters([]);
-    getNewWord();
-    setGame({...game, over: false, win: false});
+    getNewWord();      
   }
 
   const handleStart = () => {
-    setGame( { ...game, started: !game.started } );
+    setGame( { ...game, started: !game.started });
+    
     StartButtonLabel();
     if (word.str === "")
       getNewWord();
@@ -85,10 +97,12 @@ const App = () => {
       return;
     }
 
-    if (!game.started)
-      setStartLabel("Pause");
-    else 
-      setStartLabel("Continue");
+    if (!game.started){
+      setStartLabel("Pause");    
+    }
+    else {
+      setStartLabel("Continue");      
+    }
   };
 
   return (

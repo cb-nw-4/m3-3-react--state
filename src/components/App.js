@@ -16,6 +16,8 @@ const initialGameState = { started: false, over: false, win: false };
 const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({ str: "", revealed: [] });
+  const [usedLetters, setUsedLetters] = useState([]);
+  const [wrongGuesses, setWrongGuesses] = useState([])
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
     {
@@ -35,7 +37,9 @@ const App = () => {
   } else if (word.str.length > 0) {
     buttonText = "Continue";
   }
-
+  const handleGuess = (letter) => {
+    console.log(letter)
+  }
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -49,11 +53,11 @@ const App = () => {
           <Container>
             <Deadman />
             <RightColumn>
-              <DeadLetters />
+              <DeadLetters wrongGuesses={wrongGuesses}/>
               <TheWord word={word}/>
             </RightColumn>
           </Container>
-          <Keyboard />
+          <Keyboard usedLetters={usedLetters} handleGuess={handleGuess}/>
         </>
       )}
     </Wrapper>

@@ -7,8 +7,7 @@ import { colors } from "./GlobalStyles";
 
 
 
-const DeadLetters = ({}) => {
-  const [wrongGuesses, setWrongGuesses] = useState(['a','b','c'])
+const DeadLetters = ({wrongGuesses}) => {
   return (
     <Wrapper>
       <h2>Dead Letters</h2>

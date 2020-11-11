@@ -3,10 +3,6 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const Button = ({ onClickFunc, children }) => (
-  <Wrapper onClick={onClickFunc}>{children}</Wrapper>
-);
-
 const Wrapper = styled.button`
   background: #fff;
   border: 1px solid ${colors.fuchsia};
@@ -25,5 +21,10 @@ const Wrapper = styled.button`
     opacity: 0.5;
   }
 `;
+
+const Button = ({ onClickFunc, children }) => (
+  <Wrapper onClick={onClickFunc}>{children}</Wrapper>
+);
+
 
 export default Button;

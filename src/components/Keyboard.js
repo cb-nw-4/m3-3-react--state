@@ -4,11 +4,14 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
-  <Wrapper>
-    <LetterKey />
-  </Wrapper>
-);
+const Keyboard = (props) => {
+  console.log(props,"Keyboard props");
+  return (
+    <Wrapper>
+      <LetterKey letters = {props.letters} usedLetters={props.usedLetters} setUsedLetters={props.setUsedLetters} handleGuess={props.handleGuess}/>
+    </Wrapper>
+  ); 
+};
 
 const Wrapper = styled.div`
   background: ${colors.yellow};
@@ -16,7 +19,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 20px 12px;
   max-width: ${contentWidth};
   min-width: 320px;

@@ -3,8 +3,31 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+const LetterKey = (props) => {
+  console.log(props,"LetterKey props");
+  const letters = props.letters;
+  const usedLetters = props.usedLetters;
+  return (
+    <>
+      {letters.map ((item,index)=> {
+        let disabled =false;
+        usedLetters.map ((usedLettersItem,usedLettersIndex)=>{
+          if( item === usedLettersItem) {
+            return disabled = true;
+          };
+        })
+        if (disabled) {
+          return ( 
+            <Wrapper key={item} disabled>{item}</Wrapper>
+          )
+        } else {
+          return (
+            <Wrapper key={item} onClick={props.handleGuess}>{item}</Wrapper>
+          )
+        }; 
+      })}
+    </>
+  );
 };
 
 const Wrapper = styled.button`

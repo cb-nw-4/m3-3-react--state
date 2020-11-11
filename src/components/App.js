@@ -24,6 +24,12 @@ const App = () => {
       !word.str && getNewWord();
     }
   };
+
+  const handleReset = () => {
+    getNewWord()
+    setUsedLetters([])
+    setWrongGuesses([])
+  }
   const getNewWord = () => {
     const randomWord = Math.floor(Math.random() * words.length);
     const wordArr = words[randomWord].split("").map((el) => {
@@ -37,6 +43,9 @@ const App = () => {
   } else if (word.str.length > 0) {
     buttonText = "Continue";
   }
+
+  let resetButton = "Reset";
+
   const handleGuess = (letter) => {
     setUsedLetters(usedLetters.concat(letter));
     const newWord = { ...word };
@@ -56,7 +65,7 @@ const App = () => {
       <Header />
       <Nav>
         <Button onClickFunc={handleStart}>{buttonText}</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleReset}>{resetButton}</Button>
       </Nav>
       {game.started && (
         <>

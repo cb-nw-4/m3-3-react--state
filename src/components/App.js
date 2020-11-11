@@ -15,7 +15,7 @@ const initialGameState = { started: false, over: false, win: false};
 
 const App = () => {
   const [game, setGame] = useState(initialGameState);
-  const [word, setWord] = useState({ str: "" });
+  const [word, setWord] = useState({ str: "", revealed: []});
   const [leftButton, setLeftButton] = useState("START");
 
   const handleStart = () => {
@@ -23,7 +23,7 @@ const App = () => {
 
     // Get a new word
     if(word.str===""){ getNewWord(); }
-    
+
     // Set the Start button
     if(!game.started){  setLeftButton("PAUSE");}
     if(game.started){  setLeftButton("CONTINUE");}
@@ -31,7 +31,11 @@ const App = () => {
 
   const getNewWord = () =>{
      let newWord = words[Math.round(Math.random()*words.length)];
-     setWord({str: `${newWord}`});
+     let newArray = [];
+     for (let i =0; i< newWord.length; i++){
+       newArray.push("");
+     }
+     setWord({str: newWord, revealed:newArray});
   };
 
   return (
@@ -39,7 +43,7 @@ const App = () => {
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button onClickFunc={handleStart}>{leftButton}</Button>
+        <Button onClickFunc={handleStart} children={leftButton}></Button>
         <Button>btn 2</Button>
       </Nav>
       {game.started &&(
@@ -48,7 +52,7 @@ const App = () => {
           <Deadman />
           <RightColumn>
             <DeadLetters />
-            <TheWord />
+            <TheWord word={word}/>
           </RightColumn>
         </Container>
         <Keyboard />

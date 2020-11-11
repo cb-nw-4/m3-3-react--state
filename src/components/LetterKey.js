@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
-import {useState} from 'react'
+
 
 const LetterKey = ({disabled, letter, onClick}) => {
 return <Wrapper onClick={() => {

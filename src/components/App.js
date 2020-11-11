@@ -17,7 +17,7 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({ str: "", revealed: [] });
   const [usedLetters, setUsedLetters] = useState([]);
-  const [wrongGuesses, setWrongGuesses] = useState([])
+  const [wrongGuesses, setWrongGuesses] = useState([]);
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
     {
@@ -26,10 +26,10 @@ const App = () => {
   };
   const getNewWord = () => {
     const randomWord = Math.floor(Math.random() * words.length);
-    const wordArr = words[randomWord].split('').map(el => {
-      return el = ''
-    })
-    setWord({ str: words[randomWord], revealed: wordArr});
+    const wordArr = words[randomWord].split("").map((el) => {
+      return (el = "");
+    });
+    setWord({ str: words[randomWord], revealed: wordArr });
   };
   let buttonText = "Start";
   if (game.started === true && word.str.length > 0) {
@@ -38,8 +38,18 @@ const App = () => {
     buttonText = "Continue";
   }
   const handleGuess = (letter) => {
-    console.log(letter)
-  }
+    setUsedLetters(usedLetters.concat(letter));
+    const newWord = { ...word };
+    newWord.str.split("").forEach((el, i) => {
+      if (letter === el) {
+        return (newWord.revealed[i] = letter);
+      } else if (letter !== el) {
+        return setWrongGuesses(wrongGuesses.concat(letter));
+      }
+    });
+    setWord(newWord);
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -53,11 +63,11 @@ const App = () => {
           <Container>
             <Deadman />
             <RightColumn>
-              <DeadLetters wrongGuesses={wrongGuesses}/>
-              <TheWord word={word}/>
+              <DeadLetters wrongGuesses={wrongGuesses} />
+              <TheWord word={word} />
             </RightColumn>
           </Container>
-          <Keyboard usedLetters={usedLetters} handleGuess={handleGuess}/>
+          <Keyboard usedLetters={usedLetters} handleGuess={handleGuess} />
         </>
       )}
     </Wrapper>

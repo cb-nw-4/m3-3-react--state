@@ -20,9 +20,9 @@ const App = () => {
     revealed: [],
   });
 
-  const [wrongGuesses, setWrongGuesses] = useState(["k","l","p","d"]);
+  const [wrongGuesses, setWrongGuesses] = useState([]);
 
-  const [usedLetters, setUsedLetters] = useState(["v", "t", "n"]);
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -38,6 +38,53 @@ const App = () => {
       return arr.push("");
     });
     setWord({str:val,revealed:arr});
+    console.log(val);
+  }
+
+  const getIndices=(arr, val)=>{
+    var index = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        index.push(i);
+    }
+    return index;
+  }
+
+  const handleClick=(event)=>{
+    const wordarr=word.str.split('');
+    //console.log(wordarr);
+    let letterClicked=event.target.id;
+    let indexof=getIndices(wordarr, letterClicked);
+    //console.log(indexof);
+    const newarr=[...usedLetters];
+    newarr.push(letterClicked);
+    setUsedLetters(newarr);
+    let isLetterValid=false;
+    wordarr.forEach(el=>{
+      //console.log(el);
+      if(el===letterClicked){
+        isLetterValid=true;
+      }
+    });
+    if(isLetterValid){
+     //console.log("if");
+      indexof.forEach(index=>{
+        return word.revealed[index]=letterClicked;
+      });
+    }
+    else{
+      //console.log("else");
+      const guessarr=[...wrongGuesses];
+      guessarr.push(letterClicked);
+      return setWrongGuesses(guessarr);
+    }
+  }
+
+  const handleReset=()=>{
+    if(game.started && word.str.length>1){
+      getNewWord();
+      setWrongGuesses(['']);
+      setUsedLetters(['']);
+    }
   }
 
   return (
@@ -46,18 +93,19 @@ const App = () => {
       <Header />
       <Nav>
         <Button handleFunc={handleStart}>{(!game.started && word.str.length<1)? "Start" : (game.started && word.str.length>1)? "Pause" : "Continue"}</Button>
-        <Button>btn 2</Button>
+        <Button handleFunc={handleReset}>Reset</Button>
       </Nav>  
       {game.started &&(
         <>
-        <Container>
+        <Container >
           <Deadman />
           <RightColumn>
             <DeadLetters guesses={wrongGuesses}/>
             <TheWord words={word}/>
           </RightColumn>
-        </Container>
-        <Keyboard usedletters={usedLetters}/>
+          </Container>
+          <Keyboard usedletters={usedLetters} onclick={handleClick}/>
+        
         </>
       )}
     </Wrapper>

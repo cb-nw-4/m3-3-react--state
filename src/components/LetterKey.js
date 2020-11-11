@@ -4,22 +4,22 @@ import letters from "../data/letters.json"
 import { colors } from "./GlobalStyles";
 
 const LetterKey = (props) => {
-  console.log(props.disable);
+  //console.log(props);
 
-  letters.map(el=>{
-    if(props.disable.indexOf(el)>-1){
-      console.log("yaaaas")
-    }
-  })
+  // letters.map(el=>{
+  //   if(props.disable.indexOf(el)>-1){
+  //     console.log("yaaaas")
+  //   }
+  // })
   return (
     <>
       {letters.map(elem=>{
           return (
               (props.disable.indexOf(elem)>-1) ? 
-              (<Wrapper disabled>
+              (<Wrapper id={elem} disabled onClick={props.click}>
                 {elem}
               </Wrapper>) :
-              <Wrapper>
+              <Wrapper id={elem} onClick={props.click}>
                 {elem}
               </Wrapper>
           )

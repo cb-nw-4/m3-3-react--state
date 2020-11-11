@@ -5,9 +5,9 @@ import LetterKey from "./LetterKey";
 import { colors, contentWidth } from "./GlobalStyles";
 
 const Keyboard = (props) => {
-  //console.log(props.usedletters);
-  return (<Wrapper>
-    <LetterKey disable={props.usedletters}/>
+  //console.log(props.onclick);
+  return (<Wrapper >
+    <LetterKey disable={props.usedletters} click={props.onclick}/>
   </Wrapper>)
 };
 

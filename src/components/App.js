@@ -8,7 +8,9 @@ import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 import words from '../data/words.json';
-import letters from '../data/letters.json'
+import letters from '../data/letters.json';
+import bodyParts from '../data/body-parts.json'; 
+
 
 import { colors, contentWidth } from "./GlobalStyles";
 
@@ -21,13 +23,13 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
+  const classNameS = bodyParts;
+
   const getNewWord = ()=>{
     const str= words[Math.floor(Math.random() * words.length)];
     const revealed = str.split("").map (char => char ="")
     setWord({...word, str, revealed});
   }
-
-
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -36,9 +38,58 @@ const App = () => {
 
   const handlePause = () => {
     setGame({ ...game, pause: !game.pause });
+
   };
 
+  const handleGuess = (ltr) =>{
+    setUsedLetters ([...usedLetters, ltr]);
+
+    let splitWord = word.str.split("");
+
+    if(splitWord.includes(ltr)){
+      splitWord.forEach((char, i) =>{
+        if(char ===ltr){
+          let newObj = {...word};
+          newObj.revealed[i]=ltr;
+          setWord(newObj);
+
+        }
+      })
+    }else{
+      setWrongGuesses([...wrongGuesses, ltr])
+    }
+
+
+    let isDone = word.revealed.every(char => char !== '')
+
+    if((wrongGuesses.length < 10) && (isDone) ){
+      handleEndGame(true);
+
+    } else if(wrongGuesses.length ===10){
+
+      handleEndGame(false);
+    }
+    
+  }
+
+
+
+  const handleReset =() =>{
+    setGame({ ...game, started: game.started});
+    getNewWord();
+    setWrongGuesses([]);
+    setUsedLetters([]);
+  }
+
+  const handleEndGame =(win) =>{
+    setGame({...game, over: !game.over, win: win});
+  }
+
+
+  console.log('word', word)
+
   return (
+
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
@@ -49,26 +100,38 @@ const App = () => {
         { game.started && (<Button onClickFunc={handlePause}>{game.pause ? 'continue' : 'pause'}</Button>)}
 
         
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleReset}>Reset</Button>
       </Nav>
       
       {game.started && (
-        <>  
+        <> 
           <Container>
-          <Deadman />
+          <Deadman classNameS={classNameS}/>
           <RightColumn>
-            <DeadLetters wrongGuesses={wrongGuesses} />
-            <TheWord  word ={word}/>
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord  word ={word} setWord={setWord} />
           </RightColumn>
           </Container>
-          <Keyboard letters={letters} usedLetters={usedLetters}/>
+          <Keyboard 
+              word={word} setWord={setWord} 
+              letters={letters} usedLetters={usedLetters} 
+              handleGuess={handleGuess} handleEndGame={handleEndGame}/>
         </>
 
       )}
+
+      {game.over && (
+        <GameOverModal word ={word} game={game}/>
+      )
+      
+      }
         
     </Wrapper>
   );
+
 };
+
+
 
 const Wrapper = styled.div`
   background-color: ${colors.blue};

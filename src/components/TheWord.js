@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({word}) => <Wrapper>
+const TheWord = ({word, setWord}) => <Wrapper>
 
-  {word.revealed.map(char => (char ==='') ? ' ____ '  : <Span>{ char }</Span>)}
+  {word.revealed.map((char, id) => (char ==='') ? <Span key={id} line></Span>  : <Span key={char}>{char}</Span>)}
       
   </Wrapper>;
 

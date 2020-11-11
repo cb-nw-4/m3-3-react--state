@@ -5,13 +5,15 @@ import { colors } from "./GlobalStyles";
 
 const DeadLetters = ({wrongGuesses}) => {
   return (
+
     <Wrapper>
       <h2>Dead Letters</h2>
       <List>
-        {wrongGuesses.map(wrongGuess => <Letter>{wrongGuess}</Letter>)}
-        
+        {wrongGuesses.map(wrongGuess => <Letter key={wrongGuess}>{wrongGuess}</Letter>)}
       </List>
     </Wrapper>
+
+
   );
 };
 

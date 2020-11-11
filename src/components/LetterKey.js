@@ -4,14 +4,16 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({letters, usedLetters}) => {
+const LetterKey = ({letter, usedLetters, handleGuess, handleEndGame}) => {
 
   return (
-    letters.map(letter => 
+    
       (usedLetters.includes(letter)) ? 
-          <Wrapper disabled={true}>{letter}</Wrapper> : 
-          <Wrapper disabled={false}>{letter}</Wrapper>
-      ))
+          <Wrapper key={letter} disabled={true} >{letter}</Wrapper> : 
+          <Wrapper key={letter} disabled={false} onClick={() => handleGuess(letter)}>
+              {letter}
+          </Wrapper>
+      )
 };
 
 const Wrapper = styled.button`

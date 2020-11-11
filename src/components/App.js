@@ -54,23 +54,20 @@ const App = () => {
         return (newWord.revealed[i] = letter);
       } else if (letter !== el) {
         return setWrongGuesses(wrongGuesses.concat(letter));
-      }
+      } 
     });
     setWord(newWord);
+    if (usedLetters.length > 9) {
+      handleEndGame(false)
+    } else if (word.str === word.revealed.join('')) {
+      handleEndGame(true)
+    }
   };
 
   const handleEndGame = (win) => {
-    // setGame(win ? game.win : game.over);
+    setGame(win ? game.win = true : game.over = true);
     alert(`Game Over! You ${win ? "win" : "lose"}`);
   };
-  if (usedLetters.length >= 9) {
-    handleEndGame(false);
-  } else if (usedLetters.length > 5 && word.revealed.indexOf('') === -1) {
-    handleEndGame(true)
-  }
-  // if (word.revealed.indexOf("") === -1) {
-  //   handleEndGame(true);
-  // }
 
   return (
     <Wrapper>

@@ -8,6 +8,7 @@ import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 import words from "../data/words.json";
+import letters from "../data/letters.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
@@ -21,10 +22,8 @@ const App = () => {
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
-
     // Get a new word
     if(word.str===""){ getNewWord(); }
-
     // Set the Start button
     if(!game.started){  setLeftButton("PAUSE");}
     if(game.started){  setLeftButton("CONTINUE");}
@@ -56,7 +55,7 @@ const App = () => {
             <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard letters={letters}/>
       </>
       )}
     </Wrapper>

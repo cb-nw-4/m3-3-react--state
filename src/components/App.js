@@ -11,6 +11,7 @@ import GameOverModal from "./GameOverModal";
 import { colors, contentWidth } from "./GlobalStyles";
 import words from "../data/words.json";
 import letters from "../data/letters.json";
+import bodyParts from "../data/body-parts.json";
 
 const App = () => {
   const initialGameState = { started: false, over: false, win: false };
@@ -20,9 +21,21 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
+  const handleEndGame = (win) => {
+    setGame({...game, over: true, win: win});    
+  };
+
+  const handleNewGame = () => {    
+    setGame({...game, started: false, over: false, win: false}); 
+    setWrongGuesses([]);
+    setUsedLetters([]);
+    getNewWord();
+    StartButtonLabel();    
+  };
+
   const handleGuess = (ltr) => {   
-    setUsedLetters([...usedLetters, ltr]);
- 
+    setUsedLetters([...usedLetters, ltr]);   
+
     let isGoodGuess = false;
     const newRevealedArr = word.revealed.map((letter, index)=>{
         if (ltr === word.str[index]) {
@@ -32,13 +45,25 @@ const App = () => {
         return letter;
     });
    
-    isGoodGuess ? setWord({...word, revealed: newRevealedArr}) : setWrongGuesses([...wrongGuesses, ltr]);   
+    if (isGoodGuess)
+      setWord({...word, revealed: newRevealedArr})
+    else {
+      setWrongGuesses([...wrongGuesses, ltr]);   
+      const body = document.querySelector(`.${bodyParts[wrongGuesses.length]}`);      
+      body.style.stroke ="inherit";
+    }
+   
+    if (newRevealedArr.join("") === word.str) 
+      handleEndGame(true);    
+    else if (wrongGuesses.length === 9 && !isGoodGuess)
+      handleEndGame(false)
   };
 
-  const handleReset = () => {
+    const handleReset = () => {    
     setWrongGuesses([]);
     setUsedLetters([]);
     getNewWord();
+    setGame({...game, over: false, win: false});
   }
 
   const handleStart = () => {
@@ -53,8 +78,7 @@ const App = () => {
     const newArr = Array(newWord.length).fill('');
     setWord( { ...word, str: newWord, revealed: newArr} ); 
   };
-
-  //might no be a state here for the label^
+ 
   const StartButtonLabel = () => {  
     if (game.over)  {
       setStartLabel("Start");
@@ -69,11 +93,12 @@ const App = () => {
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      {game.over &&
+      <GameOverModal word={word.str} win={game.win} onClickFunc={handleNewGame}/> }
       <Header />
       <Nav>
         <Button onClickFunc={handleStart}>{startLabel}</Button>
-        <Button onClickFunc={handleReset}>Reset</Button>
+        <Button onClickFunc={handleReset} disabled={!game.started}>Reset</Button>
       </Nav>
       {game.started && (
       <>

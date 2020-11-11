@@ -10,8 +10,6 @@ import GameOverModal from "./GameOverModal";
 import words from '../data/words.json';
 import letters from '../data/letters.json';
 import bodyParts from '../data/body-parts.json'; 
-
-
 import { colors, contentWidth } from "./GlobalStyles";
 
 const initialGameState = { started: false, pause: false, over: false, win: false };
@@ -22,8 +20,12 @@ const App = () => {
   const [word, setWord] = useState({str: ""});
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
-
   const classNameS = bodyParts;
+
+
+ 
+
+
 
   const getNewWord = ()=>{
     const str= words[Math.floor(Math.random() * words.length)];
@@ -59,7 +61,6 @@ const App = () => {
       setWrongGuesses([...wrongGuesses, ltr])
     }
 
-
     let isDone = word.revealed.every(char => char !== '')
 
     if((wrongGuesses.length < 10) && (isDone) ){
@@ -73,7 +74,6 @@ const App = () => {
   }
 
 
-
   const handleReset =() =>{
     setGame({ ...game, started: game.started});
     getNewWord();
@@ -85,8 +85,9 @@ const App = () => {
     setGame({...game, over: !game.over, win: win});
   }
 
-
-  console.log('word', word)
+  const handleReStart = () =>{
+    window.location.reload()
+  }
 
   return (
 
@@ -121,7 +122,9 @@ const App = () => {
       )}
 
       {game.over && (
-        <GameOverModal word ={word} game={game}/>
+        <GameOverModal 
+            word ={word} game={game}
+            handleReStart={handleReStart}/>
       )
       
       }

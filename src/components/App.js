@@ -26,10 +26,10 @@ const App = () => {
   };
 
   const handleReset = () => {
-    getNewWord()
-    setUsedLetters([])
-    setWrongGuesses([])
-  }
+    getNewWord();
+    setUsedLetters([]);
+    setWrongGuesses([]);
+  };
   const getNewWord = () => {
     const randomWord = Math.floor(Math.random() * words.length);
     const wordArr = words[randomWord].split("").map((el) => {
@@ -58,6 +58,19 @@ const App = () => {
     });
     setWord(newWord);
   };
+
+  const handleEndGame = (win) => {
+    // setGame(win ? game.win : game.over);
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
+  };
+  if (usedLetters.length >= 9) {
+    handleEndGame(false);
+  } else if (usedLetters.length > 5 && word.revealed.indexOf('') === -1) {
+    handleEndGame(true)
+  }
+  // if (word.revealed.indexOf("") === -1) {
+  //   handleEndGame(true);
+  // }
 
   return (
     <Wrapper>

@@ -4,10 +4,10 @@ import LetterKey from "./LetterKey";
 import data from "../data/letters.json";
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({usedLetters, handleGuess}) => (
+const Keyboard = ({usedLetters, handleGuess, handleEndGame}) => (
   <Wrapper>
     {data.map(letter => {
-      return <LetterKey onClick={handleGuess}disabled={usedLetters.includes(letter)} letter={letter}/> 
+      return <LetterKey onClick={handleGuess}disabled={usedLetters.includes(letter)} letter={letter} win={handleEndGame}/> 
     })}
     
   </Wrapper>

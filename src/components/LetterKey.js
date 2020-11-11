@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-
+import data from "../data/letters.json";
 import { colors } from "./GlobalStyles";
 
 const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+  return data.map((el) => {
+    return <Wrapper>{el}</Wrapper>;
+  });
 };
 
 const Wrapper = styled.button`

@@ -19,6 +19,7 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 console.log(word.str.split(''), 'test');
+console.log(game);
   const handleStart = () => {
     setGame({...game, started:!game.started});
     if(word.str === ""){
@@ -73,12 +74,12 @@ console.log(word.str.split(''), 'test');
   const handleEndGame = (gameStatus) => {
     // setGame({...game, game: !game.over });
     setGame({...game, over: !game.over, win: gameStatus });
-    alert(`Game Over! You ${gameStatus ? "win" : "lose"}`);
+    // alert(`Game Over! You ${gameStatus ? "win" : "lose"}`);
   }
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      <GameOverModal gameStatus={ game } word={word} handleReset={handleReset}/>
       <Header />
       <Nav>
         <Button onClickFunc={handleStart} >{status}</Button>

@@ -10,7 +10,7 @@ const DeadLetters = ({ wrongGuesses }) => {
       <h2>Dead Letters</h2>
       <List>
         { wrongGuesses.map((letter) => {
-          return <ul> {letter} </ul>
+          return <Letter> {letter} </Letter>
         }) }
       </List>
     </Wrapper>

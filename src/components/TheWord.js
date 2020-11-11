@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const TheWord = ({ word }) => {
-console.log(word, 'test');
+// console.log(word, 'test');
 return(
   <Wrapper> {word.revealed.map((letter) => {
   return <Span line={!letter.length}>{letter.length ? letter : null}</Span>

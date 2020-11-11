@@ -38,7 +38,7 @@ const App = () => {
 
   const handleGuess = (ltr) => {
     setUsedLetters([...usedLetters, ltr]);
-    console.log(word.str, ltr, 'test');
+    // console.log(word.str, ltr, 'test');
     if(word.str.includes(ltr)){
       word.str.split('').map((letter) => {
         if(letter === ltr){
@@ -57,9 +57,12 @@ const App = () => {
     getNewWord();
   }
 
-  // const handleEndGame = (win) => {
-  //   setGame({...game, game.over: })
-  // }
+  const handleEndGame = (win) => {
+    setGame({...game, game: !game.over });
+    // setGame({...game, game: !game.over, win: win });
+    //if wrongGuesses.length > 9, handleEndGame(false);
+    //if word.str.split('') === word.revealed, handleEndGame(true);
+  }
 
   return (
     <Wrapper>

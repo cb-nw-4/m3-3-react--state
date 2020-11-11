@@ -26,6 +26,7 @@ export default createGlobalStyle`
 
     html, body {
         max-width: 100vw;
+        background-color: #454E9E;
     }
 
     /* http://meyerweb.com/eric/tools/css/reset/

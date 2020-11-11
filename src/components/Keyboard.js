@@ -5,10 +5,10 @@ import letters from "../data/letters.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({ usedLetters }) => (
+const Keyboard = ({ usedLetters, handleGuess }) => (
     <Wrapper>
     {letters.map((newLetter) => {
-      return <LetterKey letter={newLetter} disabled={usedLetters.includes(newLetter)}></LetterKey>
+      return <LetterKey handleGuess={handleGuess} letter={newLetter} disabled={usedLetters.includes(newLetter)}></LetterKey>
     })}
     </Wrapper>
 );

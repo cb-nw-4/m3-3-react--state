@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
+
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({ letter, disabled }) => {
+const LetterKey = ({ letter, disabled, handleGuess }) => {
 
-  return <Wrapper disabled={disabled}>{ letter }</Wrapper>;
+  return <Wrapper disabled={disabled} onClick={() => handleGuess(letter)}>{ letter }</Wrapper>;
 };
 
 

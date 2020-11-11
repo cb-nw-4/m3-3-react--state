@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import handleGuess from "./App";
 
 const TheWord = ({ word }) => (
   <Wrapper>
@@ -23,7 +24,7 @@ const Wrapper = styled.p`
 `;
 const Span = styled.span`
   display: block;
-  border-bottom: ${(props) => (props.line ? "2px solid white" : "none")};
+  border-bottom: ${(props) => (props.line ? "2px solid white" : "none" )};
   width: 30px;
   margin: 0 3px;
   text-align: center;

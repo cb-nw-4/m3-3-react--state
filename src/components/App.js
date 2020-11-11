@@ -47,7 +47,6 @@ const App = () => {
   const handleEndGame = (win) => {
     guesses = 0;
     setGame({...game, over: true, win: win});
-    alert(`Game Over! You ${win ? "win" : "lose"}`);
   }
 
   const handleGuess = (ltr) => {
@@ -70,15 +69,15 @@ const App = () => {
     }
 
     if (word.revealed.indexOf('') === -1) {
-      window.setTimeout(function() { handleEndGame(true); }, 500);
+      handleEndGame(true);
     } else if (guesses === 10) {
-      window.setTimeout(function() { handleEndGame(false); } , 500);
+      handleEndGame(false);
     }
   }
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      {(game.over) ? <GameOverModal win={game.win} word={word.str} reset={handleReset} /> : null}
       <Header />
       <Nav>
         <Button onClickFunc={handleStart} >{(game.started ? 'PAUSE' : 'START')}</Button>

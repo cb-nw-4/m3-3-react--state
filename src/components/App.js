@@ -18,7 +18,7 @@ const App = () => {
   const [status, setStatus] = useState('Start');
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
-
+console.log(word.str.split(''), 'test');
   const handleStart = () => {
     setGame({...game, started:!game.started});
     if(word.str === ""){
@@ -40,28 +40,40 @@ const App = () => {
     setUsedLetters([...usedLetters, ltr]);
     // console.log(word.str, ltr, 'test');
     if(word.str.includes(ltr)){
-      word.str.split('').map((letter) => {
+      const indices = []; //Indices of repeated letters
+      const revealedLetters = [...word.revealed];
+      word.str.split('').forEach((letter, index) => {
         if(letter === ltr){
-          let ltrIndex = word.str.split('').indexOf(ltr);
-          let newWord = {...word}
-          newWord.revealed[ltrIndex] = ltr
-          setWord(newWord);
+          indices.push(index);
         } 
       })
+      indices.forEach((index) => {
+        revealedLetters[index] = ltr;
+      })
+      setWord({...word, revealed: revealedLetters});
+      //end game if word letters = revealedLetters
+      if(word.str === revealedLetters.join('')){
+        handleEndGame(true);
+      }
     } else {
-      setWrongGuesses(wrongGuesses.concat(ltr));
+      const newWrongGuesses = wrongGuesses.concat(ltr);
+      setWrongGuesses(newWrongGuesses);
+      if(wrongGuesses.length >= 9){
+        handleEndGame(false);
+      }
     }
   }
-
   const handleReset = () => {
     getNewWord();
+    setUsedLetters([]);
+    setWrongGuesses([]);
+    setGame({...game, over: false})
   }
 
-  const handleEndGame = (win) => {
-    setGame({...game, game: !game.over });
-    // setGame({...game, game: !game.over, win: win });
-    //if wrongGuesses.length > 9, handleEndGame(false);
-    //if word.str.split('') === word.revealed, handleEndGame(true);
+  const handleEndGame = (gameStatus) => {
+    // setGame({...game, game: !game.over });
+    setGame({...game, over: !game.over, win: gameStatus });
+    alert(`Game Over! You ${gameStatus ? "win" : "lose"}`);
   }
 
   return (

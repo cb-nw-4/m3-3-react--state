@@ -7,25 +7,39 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
+import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const initialGameState = { started: false, over: false, win: false };
+const initialGameState = { started: false, over: false, win: false};
 
 const App = () => {
   const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "" });
+  const [leftButton, setLeftButton] = useState("START");
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
+
+    // Get a new word
+    if(word.str===""){ getNewWord(); }
+    
+    // Set the Start button
+    if(!game.started){  setLeftButton("PAUSE");}
+    if(game.started){  setLeftButton("CONTINUE");}
   };
 
+  const getNewWord = () =>{
+     let newWord = words[Math.round(Math.random()*words.length)];
+     setWord({str: `${newWord}`});
+  };
 
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button onClickFunc={handleStart}>Start</Button>
+        <Button onClickFunc={handleStart}>{leftButton}</Button>
         <Button>btn 2</Button>
       </Nav>
       {game.started &&(

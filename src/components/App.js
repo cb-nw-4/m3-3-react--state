@@ -10,6 +10,7 @@ import GameOverModal from "./GameOverModal";
 import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import { render } from "@testing-library/react";
 
 const initialGameState = { started: false, over: false, win: false };
 
@@ -18,6 +19,7 @@ const App = () => {
   const [word, setWord] = useState({str: ""});
   const [buttonText, setButtonText] = useState("Start");
   const [wrongGuesses, setWrongGuesses] = useState(["a", "b"]);
+  const [usedLetters, setUsedLetters] = useState(["c", "d"]);
 
   const handleStart = (game, setGame) => {
     setGame({ ...game, started: !game.started });
@@ -36,7 +38,7 @@ const App = () => {
     setWord({ ...word, str: str, revealed: emptyStrings });
   };
 
-  
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -56,7 +58,7 @@ const App = () => {
             <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedLetters={usedLetters}/>
       </>
       )}
     </Wrapper>

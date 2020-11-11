@@ -3,8 +3,9 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({ letter }) => {
-  return <Wrapper>{ letter }</Wrapper>;
+const LetterKey = ({ letter, disabled }) => {
+
+  return <Wrapper disabled={disabled}>{ letter }</Wrapper>;
 };
 
 

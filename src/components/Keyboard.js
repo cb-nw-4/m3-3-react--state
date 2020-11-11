@@ -5,17 +5,13 @@ import letters from "../data/letters.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = () => (
+const Keyboard = ({ usedLetters }) => (
     <Wrapper>
-      {addLetter()}
+    {letters.map((newLetter) => {
+      return <LetterKey letter={newLetter} disabled={usedLetters.includes(newLetter)}></LetterKey>
+    })}
     </Wrapper>
 );
-
-const addLetter = () => {
-  return letters.map((newLetter) => {
-    return <LetterKey letter={newLetter}></LetterKey>
-  });
-}
 
 const Wrapper = styled.div`
   background: ${colors.yellow};

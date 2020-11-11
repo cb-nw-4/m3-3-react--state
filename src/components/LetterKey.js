@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
-};
+import letters from "../data/letters.json";
 
 const Wrapper = styled.button`
   background: ${colors.green};
@@ -33,5 +31,39 @@ const Wrapper = styled.button`
     cursor: not-allowed;
   }
 `;
+
+const LetterKey = (props) => {
+  return (
+    <>
+    {letters.map((letter) => {
+      if (props.usedLetters.indexOf(letter) !== -1) {
+        return (
+          <Wrapper 
+            key={letter} 
+            disabled
+            onClick={() => {
+              props.handleGuess(letter); 
+            }}
+          >
+          {letter}
+          </Wrapper>
+        );
+      }
+      else {
+        return (
+          <Wrapper 
+            key={letter} 
+            onClick={() => {
+              props.handleGuess(letter);
+            }}
+          >
+          {letter}
+          </Wrapper>
+        );
+      }
+    })}
+    </>
+  )
+}
 
 export default LetterKey;

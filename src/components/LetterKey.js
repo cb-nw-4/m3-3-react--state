@@ -5,19 +5,20 @@ import { colors } from "./GlobalStyles";
 import letters from '../data/letters.json';
 
 
-const LetterKey = ({usedLetters}) => {
-  console.log(usedLetters);
+const LetterKey = ({usedLetters, onClick}) => {
+  // console.log(usedLetters);
 return (
     <>
     { letters.map((letter) => {
-      if(usedLetters.includes(letter)){
-      return <Wrapper disabled>{letter}</Wrapper>
-      } else {
-        return <Wrapper>{letter}</Wrapper>
-      };
-    }) }
+      return <Wrapper
+        disabled={usedLetters.includes(letter)}
+        onClick={() => onClick(letter)} 
+        >
+          {letter}
+        </Wrapper>
+    })}
     </>
-);
+  );
 };
 
 const Wrapper = styled.button`

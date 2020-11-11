@@ -16,12 +16,14 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({ str: "", revealed: [] });
   const [status, setStatus] = useState('Start');
-  const [wrongGuesses, setWrongGuesses] = useState(['e', 'b', 'd']);
-  const [usedLetters, setUsedLetters] = useState(["v", "t"]);
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const handleStart = () => {
     setGame({...game, started:!game.started});
-    getNewWord();
+    if(word.str === ""){
+      getNewWord();
+    }
     setStatus('Pause');
     if(status === 'Pause'){
       setStatus('Continue');
@@ -29,21 +31,43 @@ const App = () => {
   }
 
   const getNewWord = () => {
-    if(!word.str){
       let randomWord = words[Math.floor(Math.random() * words.length)];
-
-      setWord({ str: randomWord, revealed: randomWord.split('').map((letter) => {return letter = ''}) });
-    }
-    
+      setWord({ str: randomWord, revealed: randomWord.split('').map((letter) => {return letter = ''}) }); //RETURN ['', '', '']
   }
   
+
+  const handleGuess = (ltr) => {
+    setUsedLetters([...usedLetters, ltr]);
+    console.log(word.str, ltr, 'test');
+    if(word.str.includes(ltr)){
+      word.str.split('').map((letter) => {
+        if(letter === ltr){
+          let ltrIndex = word.str.split('').indexOf(ltr);
+          let newWord = {...word}
+          newWord.revealed[ltrIndex] = ltr
+          setWord(newWord);
+        } 
+      })
+    } else {
+      setWrongGuesses(wrongGuesses.concat(ltr));
+    }
+  }
+
+  const handleReset = () => {
+    getNewWord();
+  }
+
+  // const handleEndGame = (win) => {
+  //   setGame({...game, game.over: })
+  // }
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
         <Button onClickFunc={handleStart} >{status}</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleReset}>Reset</Button>
       </Nav>
       {game.started && (
       <>
@@ -54,7 +78,7 @@ const App = () => {
             <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard usedLetters={usedLetters}/>
+        <Keyboard usedLetters={usedLetters} onLetterClick={handleGuess}/>
       </>
       )}
     </Wrapper>

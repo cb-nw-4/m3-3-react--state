@@ -11,6 +11,7 @@ import words from '../data/words.json';
 import { colors, contentWidth } from "./GlobalStyles";
 
 const initialGameState = { started: false, over: false, win: false };
+let guesses = 0;
 
 const App = () => {
   const [game, setGame] = useState(initialGameState);
@@ -40,9 +41,18 @@ const App = () => {
     setGame({...game, over: false, win: false});
     setWrongGuesses([]);
     setUsedLetters([]);
+    guesses = 0;
+  }
+
+  const handleEndGame = (win) => {
+    guesses = 0;
+    setGame({...game, over: true, win: win});
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
   }
 
   const handleGuess = (ltr) => {
+    guesses++;
+
     setUsedLetters([...usedLetters, ltr]);
 
     if (word.str.indexOf(ltr) === -1) {
@@ -57,6 +67,12 @@ const App = () => {
       });
 
       setWord({...word, revealed: revealedLetters});
+    }
+
+    if (word.revealed.indexOf('') === -1) {
+      window.setTimeout(function() { handleEndGame(true); }, 500);
+    } else if (guesses === 10) {
+      window.setTimeout(function() { handleEndGame(false); } , 500);
     }
   }
 

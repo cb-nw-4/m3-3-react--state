@@ -42,8 +42,6 @@ const App = () => {
 
   const handleClassBody = (part) =>{
     let classPart = classNameB[part];
-
-
     part+= 1 ; 
     return classPart
   }
@@ -70,9 +68,7 @@ const App = () => {
 
       if(wrongGuesses.length <=9){
         const bodyPart = handleClassBody(wrongGuesses.length);
-
         const classBodyPart = document.getElementsByClassName(bodyPart);
-
         classBodyPart[0].setAttribute('style',`stroke: ${colors.yellow}`);
     }
     }
@@ -89,12 +85,21 @@ const App = () => {
     
   }
 
+  const getdeadMan =() =>{
+    classNameB.map(part => {
+        const classBodyPart = document.getElementsByClassName(part);
+        return classBodyPart[0].setAttribute('style',`stroke: transparent`);
+    })
+  }
+
 
   const handleReset =() =>{
     setGame({ ...game, started: game.started});
     getNewWord();
+    getdeadMan();
     setWrongGuesses([]);
     setUsedLetters([]);
+
   }
 
   const handleEndGame =(win) =>{

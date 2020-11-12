@@ -1,10 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-
+import letters from "../data/letters.json"
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+const LetterKey = ({letters, usedLetters, setUsedLetters, handleGuess}) => {
+  return letters.map((letter => {
+   return  ( 
+   <Wrapper 
+   onClick={()=> { 
+    let tempArray = [...usedLetters];  
+    tempArray.push(letter); 
+    setUsedLetters(tempArray); 
+    handleGuess(letter);
+
+    
+   }} 
+   disabled={usedLetters.includes(letter)} >
+   {letter} </Wrapper>)
+    })) 
+   
+ 
 };
 
 const Wrapper = styled.button`

@@ -7,6 +7,7 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import words from "../data/words.json";
+import letters from "../data/letters.json";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
@@ -14,7 +15,9 @@ import { colors, contentWidth } from "./GlobalStyles";
 const App = () => {
   const initialGameState = { started: false, over: false, win: false };
   const [game, setGame] = useState(initialGameState);
-  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [word, setWord] = useState({ str: "", revealed: [""] });
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
   const [gameStart, toggle] = useState(true);
   const [start, setStart] = useState(true);
   if (start === true) {
@@ -26,7 +29,6 @@ const App = () => {
       str: newWord,
       revealed: newWord.split("").map(() => ""),
     });
-
   };
 
   const handleStart = () => {
@@ -39,6 +41,49 @@ const App = () => {
     }
     toggle(!gameStart);
   };
+ 
+  const resetGame = () => {
+    setGame({
+      started: true,
+      over: false,
+      win: false,
+    }); 
+    getNewWord(); 
+    setWrongGuesses([]); 
+    setUsedLetters([]);
+  }; 
+
+  const handleGuess = (letter) => {
+    const letterArray = word.str.split("");
+    setUsedLetters([...usedLetters, letter]);
+    if (letterArray.includes(letter)) {
+      letterArray.forEach((ltr, id) => {
+        if (ltr === letter) {
+          const newObject = { ...word };
+          newObject.revealed[id] = letter;
+          setWord(newObject);
+        }
+      });
+    } else {
+      setWrongGuesses([...wrongGuesses, letter]);
+    }
+    if (usedLetters.length >= 10) {
+      handleEndGame(false);
+    } else if (word.revealed.filter((ltr) => ltr === "").length === 0) {
+      handleEndGame(true);
+    }
+  };
+
+  const handleEndGame = (win) => {
+    setGame({
+      started: true,
+      paused: false,
+      over: true,
+      win: { win },
+    });
+    alert(`Game Over. You ${win ? "win" : "lost"} !`);
+  };
+
 
   return (
     <Wrapper>
@@ -48,18 +93,23 @@ const App = () => {
         <Button id="mainButton" onClickFunc={handleStart} gameStart={gameStart}>
           {start}
         </Button>
-        <Button>Restart</Button>
+        <Button onClickFunc={resetGame}>Reset</Button>
       </Nav>
       {game.started && (
         <>
           <Container>
             <Deadman />
             <RightColumn>
-              <DeadLetters />
+              <DeadLetters wrongGuesses={wrongGuesses} />
               <TheWord word={word} />
             </RightColumn>
           </Container>
-          <Keyboard />
+          <Keyboard
+            letters={letters}
+            usedLetters={usedLetters}
+            setUsedLetters={setUsedLetters}
+            handleGuess={handleGuess}
+          />
         </>
       )}
     </Wrapper>
@@ -89,7 +139,7 @@ const Container = styled.div`
   max-width: ${contentWidth};
   min-width: 320px;
   position: relative;
-  padding: 20px 0;
+  padding: 10px 0;
 
   @media (min-width: 600px) {
     flex-direction: row;
@@ -100,7 +150,7 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
+  padding: 30px;
 `;
 
 export default App;

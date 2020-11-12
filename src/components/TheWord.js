@@ -22,7 +22,7 @@ const Wrapper = styled.p`
 `;
 const Span = styled.span`
   display: block;
-  border-bottom: ${(props) => (props.line ? "2px solid white" : "none")};
+  border-bottom: ${(props) => (props.line ? "2px solid white" : "2px solid white")};
   width: 30px;
   margin: 0 3px;
   text-align: center;

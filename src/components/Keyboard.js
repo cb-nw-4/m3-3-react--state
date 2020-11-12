@@ -4,11 +4,14 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
+
+const Keyboard = (props) => {
+  return (
   <Wrapper>
-    <LetterKey />
+    <LetterKey usedLetters={props.usedLetters} handleGuess={props.handleGuess} />
   </Wrapper>
-);
+  )
+};
 
 const Wrapper = styled.div`
   background: ${colors.yellow};

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Children, useState} from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -28,6 +28,13 @@ const App = () => {
     // Set the Start button
     if(!game.started){  setLeftButton("PAUSE");}
     if(game.started){  setLeftButton("CONTINUE");}
+  };
+
+  const handleReset = () =>{
+    setGame({initialGameState, started: true});
+    getNewWord();
+    setWrongGuesses([]);
+    setUsedLetters([]);
   };
 
   const getNewWord = () =>{
@@ -65,7 +72,7 @@ const App = () => {
       <Header />
       <Nav>
         <Button onClickFunc={handleStart} children={leftButton}></Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleReset}>RESET</Button>
       </Nav>
       {game.started &&(
       <>

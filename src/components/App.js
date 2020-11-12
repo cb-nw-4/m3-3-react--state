@@ -52,6 +52,17 @@ const App = () => {
     }
   };
 
+  const handleReset = (ltr) => {
+      const newList = usedLetters.filter((item) => item.ltr !== ltr);
+      setUsedLetters(newList);
+
+      const emptyDeadLetters = wrongGuesses.filter((item) => item.ltr !== ltr);
+      setWrongGuesses(emptyDeadLetters);
+
+      setGame({ ...game, started: !game.started });
+      getNewWord(words);
+  }
+
 
   return (
     <Wrapper>
@@ -61,7 +72,7 @@ const App = () => {
 
 
         <Button onClickFunc={() => handleStart(game, setGame)}>{buttonText}</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={() => handleReset()}>Reset</Button>
       </Nav>
       {game.started && (
       <>

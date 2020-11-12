@@ -13,6 +13,7 @@ import letters from "../data/letters.json";
 import { colors, contentWidth } from "./GlobalStyles";
 
 const initialGameState = { started: false, over: false, win: false};
+let numTries = 0;
 
 const App = () => {
   const [game, setGame] = useState(initialGameState);
@@ -20,6 +21,7 @@ const App = () => {
   const [leftButton, setLeftButton] = useState("START");
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
+
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -35,6 +37,7 @@ const App = () => {
     getNewWord();
     setWrongGuesses([]);
     setUsedLetters([]);
+    numTries=0;
   };
 
   const getNewWord = () =>{
@@ -46,7 +49,14 @@ const App = () => {
      setWord({str: newWord, revealed:newArray});
   };
 
+  const handleEndGame = (win) => {
+    setGame({...game, over:true, win: win});
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
+    //handleReset();
+  };
+
   const handleGuess = (ltr) => {
+
     // Add the used letter
     setUsedLetters(usedLetters.concat(ltr));
 
@@ -55,6 +65,12 @@ const App = () => {
     if(index===-1){
       //Add letter to wrong guesses
       setWrongGuesses(wrongGuesses.concat(ltr));
+      //Keep track of tries
+      numTries++;
+      console.log(numTries);
+      if(numTries>9){
+        handleEndGame(false);
+      }
     }else{
       // Add letter to revealed letters
       let newArray = [...word.revealed];
@@ -64,9 +80,12 @@ const App = () => {
           }
         }
       setWord({...word, revealed:newArray });
+      
+      if(word.str=== newArray.toString().replace(new RegExp(',','g'), "")){
+        console.log('win!');
+        handleEndGame(true);
+      }
     }
-
-
   };
 
 

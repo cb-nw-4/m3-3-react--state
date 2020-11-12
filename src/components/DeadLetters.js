@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { colors } from "./GlobalStyles";
 
 const DeadLetters = ({wrongGuesses}) => {
+  let key=0;
   return (
     <Wrapper>
       <h2>Dead Letters</h2>
@@ -11,10 +12,9 @@ const DeadLetters = ({wrongGuesses}) => {
 
       {
         wrongGuesses.map((letter)=>{
-          return<Letter>{letter}</Letter>;
+          return<Letter key={key++} >{letter}</Letter>;
         })
       }
-      <Letter></Letter>
 
       </List>
     </Wrapper>

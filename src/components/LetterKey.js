@@ -5,6 +5,7 @@ import { colors } from "./GlobalStyles";
 
 const LetterKey = ({letter,usedLetters,handleGuess}) => {
 
+  let key=0;
   const letterPicked = ()=>{
     handleGuess(letter);
   };
@@ -13,7 +14,7 @@ const LetterKey = ({letter,usedLetters,handleGuess}) => {
   return (
     <>
     {usedLetters.find(usedLetter => usedLetter===letter)? 
-    <Wrapper disabled>{letter}</Wrapper>:<Wrapper onClick={letterPicked}>{letter}</Wrapper>}
+    <Wrapper disabled key={key++}>{letter}</Wrapper>:<Wrapper onClick={letterPicked} key={key++}>{letter}</Wrapper>}
     </>
   )
 };

@@ -31,6 +31,15 @@ const App = () => {
     }
   };
 
+  const handleReset=()=>{
+    if(game.started && word.str.length>1){
+      getNewWord();
+      setGame({started: true, over: false, win: false});
+      setWrongGuesses([]);
+      setUsedLetters([]);
+    }
+  }
+
   const getNewWord=()=>{
     const val=words[Math.floor(Math.random() * words.length)];
     const arr=[];
@@ -60,36 +69,47 @@ const App = () => {
     setUsedLetters(newarr);
     let isLetterValid=false;
     wordarr.forEach(el=>{
-      //console.log(el);
       if(el===letterClicked){
         isLetterValid=true;
       }
     });
+    
     if(isLetterValid){
-     //console.log("if");
       indexof.forEach(index=>{
         return word.revealed[index]=letterClicked;
       });
+      checkStatus();
     }
     else{
-      //console.log("else");
       const guessarr=[...wrongGuesses];
       guessarr.push(letterClicked);
+      checkStatus();
       return setWrongGuesses(guessarr);
     }
   }
 
-  const handleReset=()=>{
-    if(game.started && word.str.length>1){
-      getNewWord();
-      setWrongGuesses(['']);
-      setUsedLetters(['']);
-    }
+  const checkStatus=()=>{
+    if(wrongGuesses.length<=9 && word.revealed.join('')===word.str){
+      //console.log(word.revealed);
+      return handleEndGame(true);
   }
+  else if(wrongGuesses.length>8){
+      return handleEndGame(false);
+  }
+  }
+
+  const handleEndGame = (win) => {
+    setGame({...game, over: true, win: win});
+    //console.log(game.over, game.win);
+    //return alert(`Game Over! You ${win ? "win" : "lose"}`);
+  };
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      {(game.over===true) ? <GameOverModal 
+        word={word}
+        game={game}
+        reset={handleReset}/> : <></>}
       <Header />
       <Nav>
         <Button handleFunc={handleStart}>{(!game.started && word.str.length<1)? "Start" : (game.started && word.str.length>1)? "Pause" : "Continue"}</Button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -11,7 +11,7 @@ import GameOverModal from "./GameOverModal";
 import { colors, contentWidth } from "./GlobalStyles";
 import words from "../data/words.json";
 import letters from "../data/letters.json";
-import bodyParts from "../data/body-parts.json";
+import bodyPartsData from "../data/body-parts.json";
 
 const App = () => {
   const initialGameState = { started: false, over: false, win: false };
@@ -20,21 +20,8 @@ const App = () => {
   const [startLabel, setStartLabel] = useState("Start");
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
-
+  const [bodyParts, setBodyParts] = useState(bodyPartsData);  
   
-  const drawHangMan = useCallback((strokeStyle) => {
-      wrongGuesses.forEach((letter, index) => {
-      const body = document.querySelector(`.${bodyParts[index]}`);
-      if (body !== null && body.style.stroke !== strokeStyle)
-        body.style.stroke = strokeStyle;
-    }); 
-  }, [wrongGuesses] );
-
-  useEffect(() => {
-    if (game.started) {  
-     drawHangMan("inherit");
-    }
-  }, [game.started, drawHangMan]); 
 
   const handleEndGame = (win) => {
     setGame({...game, over: true, win: win});    
@@ -64,14 +51,17 @@ const App = () => {
         handleEndGame(true);
     }
     else {
-      setWrongGuesses([...wrongGuesses, ltr]);        
+      setWrongGuesses([...wrongGuesses, ltr]); 
+      const copyBodyPart = [...bodyParts];
+      copyBodyPart[wrongGuesses.length]= "";     
+      setBodyParts(copyBodyPart);       
       if (wrongGuesses.length === 9)
         handleEndGame(false);
     }   
   };
 
-  const handleReset = () => {   
-    drawHangMan("transparent");   
+  const handleReset = () => {    
+    setBodyParts(bodyPartsData);
     setWrongGuesses([]);
     setUsedLetters([]);
     getNewWord();      
@@ -117,7 +107,7 @@ const App = () => {
       {game.started && (
       <>
         <Container>
-          <Deadman />
+          <Deadman bodyParts={bodyParts}/>
           <RightColumn>
             <DeadLetters wrongGuesses={wrongGuesses}/>
             <TheWord word={word} />

@@ -57,6 +57,7 @@ const App = () => {
       } 
     });
     setWord(newWord);
+
     if (usedLetters.length > 9) {
       handleEndGame(false)
     } else if (word.str === word.revealed.join('')) {
@@ -65,13 +66,13 @@ const App = () => {
   };
 
   const handleEndGame = (win) => {
-    setGame(win ? game.win = true : game.over = true);
-    alert(`Game Over! You ${win ? "win" : "lose"}`);
+    setGame({...game, over: true, win: win});
   };
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      {game.over && <GameOverModal word={word} handleReset={handleReset}
+      game={game}/>}
       <Header />
       <Nav>
         <Button onClickFunc={handleStart}>{buttonText}</Button>

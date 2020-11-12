@@ -37,6 +37,7 @@ const App = () => {
     setWord({ ...word, str: str, revealed: emptyStrings }); 
   };
 
+
   const handleGuess = (ltr) => {
     console.log('handleGuess', ltr);
     setUsedLetters(usedLetters.concat(ltr));
@@ -76,9 +77,7 @@ const App = () => {
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-
-
-        <Button onClickFunc={() => handleStart(game, setGame)}>{buttonText}</Button>
+        <Button onClickFunc={() => handleStart(game, setGame)}>{(!game.started && word.str.length < 1) ? "Start" : (game.started && word.str.length > 1) ? "Pause" : "Continue"}</Button>
         <Button onClickFunc={() => handleReset(game, setGame)}>Reset</Button>
       </Nav>
       {game.started && (

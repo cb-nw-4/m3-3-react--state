@@ -8,7 +8,7 @@ const TheWord = (props) => {
       {props.word.map(char => {
 
         if (char.length === 0) {
-          return <Span key={RandomKey()} line="true" />
+          return <Span key={RandomKey()} line />
         } else {
           return <Span key={RandomKey()}>{char}</Span>;
         }

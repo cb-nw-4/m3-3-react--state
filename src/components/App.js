@@ -9,8 +9,9 @@ import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 import words from '../data/words.json';
 import { colors, contentWidth } from "./GlobalStyles";
+import { render } from "@testing-library/react";
 
-const initialGameState = { started: false, over: false, win: false };
+const initialGameState = { started: false, paused: false, over: false, win: false };
 let guesses = 0;
 
 const App = () => {
@@ -19,29 +20,46 @@ const App = () => {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
 
+  // state to handle body part visibility
+  const [stroke, setStroke] = useState(Array(10).fill('transparent'));
+
+  // Generate a new word
   const getNewWord = () => {
     const newWord = words[Math.floor(Math.random() * words.length)];
 
     setWord({
       str: newWord,
-      revealed: new Array(newWord.length).fill('')
+      revealed: Array(newWord.length).fill('')
     });
   }
 
+  // Handle starting the game
   const handleStart = () => {
-    setGame({ ...game, started: !game.started });
+    if (!game.started && !game.paused) {
+      setGame({ ...game, started: !game.started });
+    }
+
+    if (game.started && !game.paused) {
+      setGame({ ...game, started: !game.started, paused: !game.paused });
+    }
+
+    if (!game.started && game.paused) {
+      setGame({ ...game, started: !game.started, paused: !game.paused });
+    }
     
     if (word.str.length === 0) {
       getNewWord();
     }
   }
 
+  // Handle resetting the game
   const handleReset = () => {
     getNewWord();
     setGame({...game, over: false, win: false});
     setWrongGuesses([]);
     setUsedLetters([]);
     guesses = 0;
+    setStroke(Array(10).fill('transparent'));
   }
 
   const handleEndGame = (win) => {
@@ -49,14 +67,21 @@ const App = () => {
     setGame({...game, over: true, win: win});
   }
 
+  // Handle a guess
   const handleGuess = (ltr) => {
-    guesses++;
-
     setUsedLetters([...usedLetters, ltr]);
 
     if (word.str.indexOf(ltr) === -1) {
+      // Wrong guess
+      guesses++;
       setWrongGuesses([...wrongGuesses, ltr]);
+
+      // Make body part visible
+      let currentStroke = stroke;
+      currentStroke[guesses - 1] = colors.yellow;
+      setStroke(currentStroke);
     } else {
+      // Right guess
       let revealedLetters = word.revealed;
 
       word.str.split('').forEach((letter, index) => {
@@ -68,6 +93,7 @@ const App = () => {
       setWord({...word, revealed: revealedLetters});
     }
 
+    // Determine if game has been won or lost.
     if (word.revealed.indexOf('') === -1) {
       handleEndGame(true);
     } else if (guesses === 10) {
@@ -80,13 +106,17 @@ const App = () => {
       {(game.over) ? <GameOverModal win={game.win} word={word.str} reset={handleReset} /> : null}
       <Header />
       <Nav>
-        <Button onClickFunc={handleStart} >{(game.started ? 'PAUSE' : 'START')}</Button>
+        <Button onClickFunc={handleStart} >
+          {!game.started && !game.paused && (<>START</>)}
+          {game.started && !game.paused && (<>PAUSE</>)}
+          {!game.started && game.paused && (<>CONTINUE</>)}
+        </Button>
         <Button onClickFunc={handleReset} >RESET</Button>
       </Nav>
       {game.started && (
         <>
           <Container>
-            <Deadman />
+            <Deadman stroke={stroke}/>
             <RightColumn>
               <DeadLetters wrongGuesses={wrongGuesses} setWrongGuesses={setWrongGuesses} />
               <TheWord word={word['revealed']}/>

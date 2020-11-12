@@ -7,28 +7,105 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
+import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, over: false, win: false };
+
 const App = () => {
+  const [game, setGame] = React.useState(initialGameState);
+
+  const [word, setWord] = React.useState({ str: "", revealed: [] });
+
+  const [status, setStatus] = React.useState("Start");
+
+  const [usedLetters, setUsedLetters] = React.useState([]);
+
+  const [wrongGuesses, setWrongGuesses] = React.useState([]);
+
+  const handleStart = () => {
+    setGame({ ...game, started: !game.started });
+    setStatus("Pause");
+    if (word.str === "") {
+      getNewWord();
+    }
+    if (status === "Pause") {
+      setStatus("Continue")
+    }
+  };
+
+  const handleRestart = () => {
+    setGame(initialGameState);
+    setGame({ ...game, started: game.started });
+    setUsedLetters([]);
+    setWrongGuesses([]);
+    getNewWord();
+  };
+
+  const handleGuess = (letter) => {
+    setUsedLetters(usedLetters => [...usedLetters, letter])
+    console.log(word.str)
+    let wordSplit = word.str.split('');
+    let correctGuess = "";
+    wordSplit.map((ltr, i) => {
+      if (wordSplit.includes(letter) === true && ltr === letter) {
+        word.revealed[i] = ltr;
+      } else if (wordSplit.includes(letter) === false) {
+        console.log(ltr, letter)
+        setWrongGuesses([...wrongGuesses, letter])
+      }
+    })
+    console.log(wordSplit, word.revealed)
+    if (wrongGuesses.length >= 9) {
+      handleEndGame(false);
+      setStatus("Start")
+      setUsedLetters([]);
+      setWrongGuesses([]);
+      getNewWord();
+    } else if (wordSplit.join('') === word.revealed.join('')) {
+      console.log("works");
+      handleEndGame(true);
+      setStatus("Start");
+      setUsedLetters([]);
+      setWrongGuesses([]);
+      getNewWord();
+    }
+  }
+
+  const getNewWord = (randomWord) => {
+      randomWord = words[Math.floor(Math.random() * words.length)];      
+      console.log(randomWord)
+      let letterSlots = Array(randomWord.length).fill("");
+      console.log(letterSlots)
+      setWord( { ...word, str: randomWord, revealed: letterSlots })
+  }
+
+  const handleEndGame = (win) => {
+    setGame({ started: false, over: false, win: false });
+    alert(`Game Over! You ${ win ? "win" : "lose"}`);
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleStart}>{status}</Button>
+        <Button onClickFunc={handleRestart}>Reset</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses} setWrongGuesses={setWrongGuesses} />
+            <TheWord word={word.str} letterSlots={word.revealed} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedLetters={usedLetters}handleGuess={handleGuess}/>
       </>
+      )}
     </Wrapper>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "./GlobalStyles";
 
-const DeadMan = ({classNameS}) => {
+const DeadMan = ({classNameB}) => {
   return (
     <SVG>
       {/* Structure */}
@@ -11,7 +11,7 @@ const DeadMan = ({classNameS}) => {
       <line x1="60" y1="20" x2="60" y2="400" />
       <line x1="45" y1="385" x2="300" y2="385" />
       {/* head */}
-      <circle cx="200" cy="115" r="45" className={classNameS[0]} />
+      <circle cx="200" cy="115" r="45" className="head" />
       {/* body */}
       <line x1="200" y1="160" x2="200" y2="260" className="body" />
       {/* Arms */}
@@ -29,10 +29,6 @@ const DeadMan = ({classNameS}) => {
     </SVG>
   );
 };
-
-
-
-
 
 const SVG = styled.svg`
   height: 400px;

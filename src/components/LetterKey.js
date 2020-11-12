@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({letter, usedLetters, handleGuess, handleEndGame}) => {
+const LetterKey = ({letter, usedLetters, handleGuess}) => {
 
   return (
     

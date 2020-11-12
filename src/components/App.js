@@ -27,6 +27,11 @@ const App = () => {
 
 
 
+
+
+
+
+
   const getNewWord = ()=>{
     const str= words[Math.floor(Math.random() * words.length)];
     const revealed = str.split("").map (char => char ="")
@@ -45,6 +50,10 @@ const App = () => {
 
   const handleGuess = (ltr) =>{
     setUsedLetters ([...usedLetters, ltr]);
+
+    // const classBody= document.getElementsByTagName('svg');
+
+    // console.log('classB', classBody.style);
 
     let splitWord = word.str.split("");
 
@@ -107,7 +116,7 @@ const App = () => {
       {game.started && (
         <> 
           <Container>
-          <Deadman classNameS={classNameS}/>
+          <Deadman classNameB={classNameS}/>
           <RightColumn>
             <DeadLetters wrongGuesses={wrongGuesses}/>
             <TheWord  word ={word} setWord={setWord} />

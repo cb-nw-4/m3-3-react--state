@@ -20,15 +20,7 @@ const App = () => {
   const [word, setWord] = useState({str: ""});
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [usedLetters, setUsedLetters] = useState([]);
-  const classNameS = bodyParts;
-
-
- 
-
-
-
-
-
+  const classNameB = bodyParts;
 
 
 
@@ -48,13 +40,17 @@ const App = () => {
 
   };
 
+  const handleClassBody = (part) =>{
+    let classPart = classNameB[part];
+
+
+    part+= 1 ; 
+    return classPart
+  }
+
   const handleGuess = (ltr) =>{
     setUsedLetters ([...usedLetters, ltr]);
-
-    // const classBody= document.getElementsByTagName('svg');
-
-    // console.log('classB', classBody.style);
-
+ 
     let splitWord = word.str.split("");
 
     if(splitWord.includes(ltr)){
@@ -67,12 +63,23 @@ const App = () => {
         }
       })
     }else{
-      setWrongGuesses([...wrongGuesses, ltr])
+      
+      setWrongGuesses([...wrongGuesses, ltr]);
+
+      //Handle Deadman part 
+
+      if(wrongGuesses.length <=9){
+        const bodyPart = handleClassBody(wrongGuesses.length);
+
+        const classBodyPart = document.getElementsByClassName(bodyPart);
+
+        classBodyPart[0].setAttribute('style',`stroke: ${colors.yellow}`);
+    }
     }
 
-    let isDone = word.revealed.every(char => char !== '')
+    let isDone = word.revealed.every(char => char !== '');
 
-    if((wrongGuesses.length < 10) && (isDone) ){
+    if((wrongGuesses.length <=9 ) && (isDone) ){
       handleEndGame(true);
 
     } else if(wrongGuesses.length ===10){
@@ -116,7 +123,7 @@ const App = () => {
       {game.started && (
         <> 
           <Container>
-          <Deadman classNameB={classNameS}/>
+          <Deadman className={classNameB}/>
           <RightColumn>
             <DeadLetters wrongGuesses={wrongGuesses}/>
             <TheWord  word ={word} setWord={setWord} />

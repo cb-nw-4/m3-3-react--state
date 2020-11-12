@@ -19,7 +19,7 @@ const App = () => {
   const [word, setWord] = useState({ str: "", revealed: []});
   const [leftButton, setLeftButton] = useState("START");
   const [wrongGuesses, setWrongGuesses] = useState([]);
-  const [usedLetters, setUsedLetters] = useState(["v", "t"]);
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -39,6 +39,26 @@ const App = () => {
      setWord({str: newWord, revealed:newArray});
   };
 
+  const handleGuess = (ltr) => {
+    // Add the used letter
+    setUsedLetters(usedLetters.concat(ltr));
+
+    // Search for the letter in the word
+    let index = word.str.indexOf(ltr);
+    if(index===-1){
+      //Add letter to wrong guesses
+      setWrongGuesses(wrongGuesses.concat(ltr));
+    }else{
+      // Add letter to revealed letters
+      let newArray = [...word.revealed];
+      newArray[index]=ltr;
+      setWord({...word, revealed:newArray });
+    }
+
+
+  };
+
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
@@ -56,7 +76,7 @@ const App = () => {
             <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard letters={letters} usedLetters={usedLetters}/>
+        <Keyboard letters={letters} usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
       )}
     </Wrapper>

@@ -3,10 +3,17 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({letter,usedLetters}) => {
+const LetterKey = ({letter,usedLetters,handleGuess}) => {
+
+  const letterPicked = ()=>{
+    handleGuess(letter);
+  };
+
+
   return (
     <>
-    {usedLetters.find(usedLetter => usedLetter===letter)? <Wrapper disabled>{letter}</Wrapper>:<Wrapper>{letter}</Wrapper>}
+    {usedLetters.find(usedLetter => usedLetter===letter)? 
+    <Wrapper disabled>{letter}</Wrapper>:<Wrapper onClick={letterPicked}>{letter}</Wrapper>}
     </>
   )
 };

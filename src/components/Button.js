@@ -3,9 +3,11 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const Button = ({ onClickFunc, children }) => (
-  <Wrapper onClick={onClickFunc}>{children}</Wrapper>
-);
+
+const Button = ({handleFunc, children}) => {
+  return(
+  <Wrapper onClick={handleFunc}>{children}</Wrapper>);
+};
 
 const Wrapper = styled.button`
   background: #fff;

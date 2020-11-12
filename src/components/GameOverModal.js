@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Button from "./Button";
 import { colors } from "./GlobalStyles";
 
-const GameOverModal = ({}) => {
+const GameOverModal = (props) => {
+  //console.log(props.word.str);
   return (
     <Wrapper>
       <Content>
-        <Heading>You ___ !!🤩😱</Heading>
-        <Word>👉 the word 👈</Word>
-        <Button>btn 3</Button>
+      <Heading>You {props.game.win ? "Won!!🤩" : "Lose😱"} </Heading>
+        <Word>👉 {props.word.str} 👈</Word>
+        <Button handleFunc={props.reset}>New Game</Button>
       </Content>
     </Wrapper>
   );

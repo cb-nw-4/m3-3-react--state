@@ -4,11 +4,12 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
-  <Wrapper>
-    <LetterKey />
-  </Wrapper>
-);
+const Keyboard = (props) => {
+  //console.log(props.onclick);
+  return (<Wrapper >
+    <LetterKey disable={props.usedletters} click={props.onclick}/>
+  </Wrapper>)
+};
 
 const Wrapper = styled.div`
   background: ${colors.yellow};
@@ -20,6 +21,14 @@ const Wrapper = styled.div`
   padding: 20px 12px;
   max-width: ${contentWidth};
   min-width: 320px;
+
+  &:disabled,
+  &:hover:disabled {
+    background: #707070;
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
 `;
 
 export default Keyboard;

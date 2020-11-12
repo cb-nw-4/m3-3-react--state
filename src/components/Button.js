@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const Button = ({ onClickFunc, children }) => (
+
+const Button = ({ onClickFunc, handleStart, children }) => (
   <Wrapper onClick={onClickFunc}>{children}</Wrapper>
 );
 

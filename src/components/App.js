@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -7,31 +7,96 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
+import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import { render } from "@testing-library/react";
+
+const initialGameState = { started: false, over: false, win: false };
 
 const App = () => {
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({str: ""});
+  const [buttonText, setButtonText] = useState("Start");
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+
+  const handleStart = (game, setGame) => {
+    setGame({ ...game, started: !game.started });
+    if (word.str === "") {
+      getNewWord(words);
+    }
+  };
+
+  const getNewWord = (words) => {
+    let str = words[Math.floor(Math.random() * words.length)];
+    let emptyStrings = []
+    for (let i = 0; i < str.length; i++) {
+      emptyStrings.push("");
+    }
+    setWord({ ...word, str: str, revealed: emptyStrings }); 
+  };
+
+
+  const handleGuess = (ltr) => {
+    console.log('handleGuess', ltr);
+    setUsedLetters(usedLetters.concat(ltr));
+    if (word.str.includes(ltr)) {
+      for(let i = 0; i < word.str.length; i++) {
+        if (word.str[i] === ltr) {
+          word.revealed[i] = ltr;
+        }
+      }
+      setWord({ ...word, revealed: word.revealed });
+    } else {
+      setWrongGuesses(wrongGuesses.concat(ltr));
+    }
+    if (wrongGuesses.length >= 9) {
+      handleEndGame(false);
+    }
+    if (word.str === word.revealed.join("")) {
+      handleEndGame(true);
+    }
+  };
+
+  const handleReset = (ltr) => {
+      setUsedLetters([]);
+      setWrongGuesses([]);
+      setGame({ ...game, started: !game.started });
+      getNewWord(words);
+  }
+
+  const handleEndGame = (win) => {
+    setGame(initialGameState);
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
+  };
+
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={() => handleStart(game, setGame)}>{(!game.started && word.str.length < 1) ? "Start" : (game.started && word.str.length > 1) ? "Pause" : "Continue"}</Button>
+        <Button onClickFunc={() => handleReset(game, setGame)}>Reset</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
+      )}
     </Wrapper>
   );
 };
+
+
 
 const Wrapper = styled.div`
   background-color: ${colors.blue};

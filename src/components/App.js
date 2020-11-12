@@ -58,7 +58,11 @@ const App = () => {
     }else{
       // Add letter to revealed letters
       let newArray = [...word.revealed];
-      newArray[index]=ltr;
+        for(let i=0; i<word.str.length; i++){
+          if(word.str[i]=== ltr){
+            newArray[i]=ltr;
+          }
+        }
       setWord({...word, revealed:newArray });
     }
 

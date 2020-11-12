@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -9,26 +9,113 @@ import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import words from "../data/words.json";
+import letters from "../data/letters.json";
+import bodyPartsData from "../data/body-parts.json";
 
 const App = () => {
+  const initialGameState = { started: false, over: false, win: false };
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [startLabel, setStartLabel] = useState("Start");
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+  const [bodyParts, setBodyParts] = useState(bodyPartsData);  
+  
+
+  const handleEndGame = (win) => {
+    setGame({...game, over: true, win: win});    
+  };
+
+  const handleNewGame = () => {    
+    setGame({...game, started: false, over: false, win: false});
+    handleReset();
+    StartButtonLabel();    
+  };
+
+  const handleGuess = (ltr) => {   
+    setUsedLetters([...usedLetters, ltr]);   
+
+    let isGoodGuess = false;
+    const newRevealedArr = word.revealed.map((letter, index)=>{
+        if (ltr === word.str[index]) {
+          isGoodGuess = true;
+          return ltr;
+        }          
+        return letter;
+    });
+   
+    if (isGoodGuess) {
+      setWord({...word, revealed: newRevealedArr});
+      if (newRevealedArr.join("") === word.str) 
+        handleEndGame(true);
+    }
+    else {
+      setWrongGuesses([...wrongGuesses, ltr]); 
+      const copyBodyPart = [...bodyParts];
+      copyBodyPart[wrongGuesses.length]= "";     
+      setBodyParts(copyBodyPart);       
+      if (wrongGuesses.length === 9)
+        handleEndGame(false);
+    }   
+  };
+
+  const handleReset = () => {    
+    setBodyParts(bodyPartsData);
+    setWrongGuesses([]);
+    setUsedLetters([]);
+    getNewWord();      
+  }
+
+  const handleStart = () => {
+    setGame( { ...game, started: !game.started });
+    
+    StartButtonLabel();
+    if (word.str === "")
+      getNewWord();
+  };
+
+  const getNewWord = () => {
+    const newWord = words[Math.floor(Math.random() * words.length)];
+    const newArr = Array(newWord.length).fill('');
+    setWord( { ...word, str: newWord, revealed: newArr} ); 
+  };
+ 
+  const StartButtonLabel = () => {  
+    if (game.over)  {
+      setStartLabel("Start");
+      return;
+    }
+
+    if (!game.started){
+      setStartLabel("Pause");    
+    }
+    else {
+      setStartLabel("Continue");      
+    }
+  };
+
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+      {game.over &&
+      <GameOverModal word={word.str} win={game.win} onClickFunc={handleNewGame}/> }
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleStart}>{startLabel}</Button>
+        <Button onClickFunc={handleReset} disabled={!game.started}>Reset</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
-          <Deadman />
+          <Deadman bodyParts={bodyParts}/>
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard letters={letters} usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
+      )}
     </Wrapper>
   );
 };

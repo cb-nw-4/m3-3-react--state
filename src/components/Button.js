@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const Button = ({ onClickFunc, children }) => (
-  <Wrapper onClick={onClickFunc}>{children}</Wrapper>
+const Button = ({ onClickFunc, children, disabled }) => (
+  <Wrapper onClick={onClickFunc} disabled={disabled}>{children}</Wrapper>
 );
 
 const Wrapper = styled.button`

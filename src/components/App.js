@@ -81,13 +81,13 @@ const App = () => {
       over: true,
       win: { win },
     });
-    alert(`Game Over. You ${win ? "win" : "lost"} !`);
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
   };
 
 
   return (
     <Wrapper>
-      {/* <GameOverModal /> */}
+     
       <Header />
       <Nav>
         <Button id="mainButton" onClickFunc={handleStart} gameStart={gameStart}>
@@ -111,7 +111,10 @@ const App = () => {
             handleGuess={handleGuess}
           />
         </>
-      )}
+      )} 
+      {/* {game.over && 
+       <GameOverModal setGame={setGame} 
+       />} */}
     </Wrapper>
   );
 };

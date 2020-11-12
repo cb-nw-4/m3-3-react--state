@@ -3,11 +3,12 @@ import styled from "styled-components";
 import Button from "./Button";
 import { colors } from "./GlobalStyles";
 
-const GameOverModal = ({}) => {
+const GameOverModal = ({setGame }) => { 
+  setGame();
   return (
     <Wrapper>
       <Content>
-        <Heading>You ___ !!🤩😱</Heading>
+     <Heading >You won !!🤩🤩</Heading>)
         <Word>👉 the word 👈</Word>
         <Button>btn 3</Button>
       </Content>
@@ -25,7 +26,8 @@ const Wrapper = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2;
+  z-index: 2; 
+  display: block;
 `;
 const Content = styled.div`
   background: white;

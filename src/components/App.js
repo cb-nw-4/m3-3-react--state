@@ -50,18 +50,25 @@ const App = () => {
     } else {
       setWrongGuesses(wrongGuesses.concat(ltr));
     }
+    if (wrongGuesses.length >= 9) {
+      handleEndGame(false);
+    }
+    if (word.str === word.revealed.join("")) {
+      handleEndGame(true);
+    }
   };
 
   const handleReset = (ltr) => {
-      const newList = usedLetters.filter((item) => item.ltr !== ltr);
-      setUsedLetters(newList);
-
-      const emptyDeadLetters = wrongGuesses.filter((item) => item.ltr !== ltr);
-      setWrongGuesses(emptyDeadLetters);
-
+      setUsedLetters([]);
+      setWrongGuesses([]);
       setGame({ ...game, started: !game.started });
       getNewWord(words);
   }
+
+  const handleEndGame = (win) => {
+    setGame(initialGameState);
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
+  };
 
 
   return (
@@ -72,7 +79,7 @@ const App = () => {
 
 
         <Button onClickFunc={() => handleStart(game, setGame)}>{buttonText}</Button>
-        <Button onClickFunc={() => handleReset()}>Reset</Button>
+        <Button onClickFunc={() => handleReset(game, setGame)}>Reset</Button>
       </Nav>
       {game.started && (
       <>

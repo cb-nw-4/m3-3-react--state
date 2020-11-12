@@ -81,7 +81,7 @@ const App = () => {
       over: true,
       win: { win },
     });
-    alert(`Game Over! You ${win ? "win" : "lose"}`);
+    alert(`Game Over! You ${win ? "win" : "lost"}.`);
   };
 
 

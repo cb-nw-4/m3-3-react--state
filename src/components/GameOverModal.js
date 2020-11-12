@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Button from "./Button";
 import { colors } from "./GlobalStyles";
 
-const GameOverModal = ({}) => {
+const GameOverModal = ({gameStatus, handleReset, word}) => {
   return (
-    <Wrapper>
+    <Wrapper overStatus={gameStatus.over}>
       <Content>
-        <Heading>You ___ !!🤩😱</Heading>
-        <Word>👉 the word 👈</Word>
-        <Button>btn 3</Button>
+      <Heading>YOU {gameStatus.win ? 'WIN 🤩' : 'LOSE 😱'} !!</Heading>
+      <Word> 👉{word.str}👈 </Word>
+        <Button onClickFunc={handleReset}>New Game</Button>
       </Content>
     </Wrapper>
   );
@@ -17,7 +17,9 @@ const GameOverModal = ({}) => {
 
 const Wrapper = styled.div`
   backdrop-filter: blur(4px);
-  display: flex;
+  /* display: flex; */
+  /* display: none; */
+  display: ${(props) => (props.overStatus ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -50,5 +52,6 @@ const Word = styled.p`
   font-weight: 600;
   margin: 18px 0;
 `;
+
 
 export default GameOverModal;

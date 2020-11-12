@@ -231,21 +231,24 @@ Lift state up in the following examples
 <Timer />
 
 ```jsx live=true
-const Counter = () => {
-  const [count, setCount] = React.useState(0);
-
+const Counter = (props) => {
   return (
     <>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => props.setCount(props.count + 1)}>Increment</button>
     </>
   );
 };
 
 const App = () => {
+  const [count, setCount] = React.useState(0);
+
   return (
     <>
-      The current count is: ???
-      <Counter />
+      The current count is: {count}
+      <Counter 
+      count={count}
+      setCount={setCount}
+      />
     </>
   );
 };
@@ -256,8 +259,7 @@ render(<App />);
 ---
 
 ```jsx live=true
-const FavouriteFood = () => {
-  const [food, setFood] = React.useState("");
+const FavouriteFood = ({food, setFood}) => {
 
   return (
     <>
@@ -286,10 +288,14 @@ const FavouriteFood = () => {
 };
 
 const App = () => {
+  const [food, setFood] = React.useState("");
   return (
     <>
-      <p>My favourite food is: ???</p>
-      <FavouriteFood />
+      <p>My favourite food is: {food}</p>
+      <FavouriteFood 
+      food={food}
+      setFood={setFood}
+      />
     </>
   );
 };

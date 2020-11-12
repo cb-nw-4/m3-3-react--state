@@ -2,9 +2,23 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
+import letters from '../data/letters.json';
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+
+const LetterKey = ({usedLetters, onClick}) => {
+  // console.log(usedLetters);
+return (
+    <>
+    { letters.map((letter) => {
+      return <Wrapper
+        disabled={usedLetters.includes(letter)}
+        onClick={() => onClick(letter)} 
+        >
+          {letter}
+        </Wrapper>
+    })}
+    </>
+  );
 };
 
 const Wrapper = styled.button`

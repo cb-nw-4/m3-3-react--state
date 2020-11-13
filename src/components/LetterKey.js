@@ -3,9 +3,51 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+const LetterKey = ({ letters, usedLetters, setUsedLetters, word, setWord, wrongGuesses, setWrongGuesses }) => {
+  let checkLetter = (letter) => {
+    let wordObjectLetters = {...word};
+    let usedLettersCopy = {...usedLetters};
+    let wrongGuessesCopy = {...wrongGuesses};
+    if (wordObjectLetters.str.includes(letter)) {
+      usedLettersCopy.push(letter);
+      wordObjectLetters.revealed.push(letter);
+      setWord(wordObjectLetters);
+      setUsedLetters(usedLettersCopy);
+    } else {
+      usedLettersCopy.push(letter);
+      wrongGuessesCopy.push(letter);
+      setUsedLetters(usedLettersCopy);
+      setWrongGuesses(wrongGuessesCopy);
+    }
 };
+  return (
+    <Span>
+    {letters.map((letter) => {
+      if (wrongGuesses.includes(letter)) {
+        return (
+          <Wrapper
+            disabled={true}>
+            {letter}
+          </Wrapper>
+        );
+      } else {
+        return (
+          <Wrapper
+            disabled={false}
+            onClick = {() => {checkLetter(letter)}}>
+            {letter}
+          </Wrapper>
+      );
+      }
+    })}
+    </Span>
+  )
+}
+const Span = styled.span`
+  display: inline-block;
+  width: 800px;
+  height: 100px;
+`;
 
 const Wrapper = styled.button`
   background: ${colors.green};
@@ -15,7 +57,7 @@ const Wrapper = styled.button`
   cursor: pointer;
   height: 50px;
   width: 50px;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   margin: 4px;

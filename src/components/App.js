@@ -28,6 +28,7 @@ const App = () => {
 
     setUsedLetters(usedLetters.concat(ltr));
     let newObj = { ...word };
+    let wrngGuesses = [...wrongGuesses]
     const revealedLetters = [...word.revealed];
     if (newObj.str.includes(ltr)) {
       let wordArr = newObj.str.split("");
@@ -37,16 +38,16 @@ const App = () => {
         }
       });
     } else {
-      let wrngGuesses = [...wrongGuesses];
+      ;
       wrngGuesses.push(ltr);
       setWrongGuesses(wrngGuesses);
       console.log(`wrongGuesses`, wrongGuesses);
     }
     setWord({ ...newObj, revealed: revealedLetters });
-    if (wrongGuesses.length === 11) {
+    if (wrngGuesses.length === 10) {
       handleEndGame(false);
     }
-    if (!word.revealed.includes("_")) {
+    if (!revealedLetters.includes("_")) {
       handleEndGame(true);
     }
   };

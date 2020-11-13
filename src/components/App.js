@@ -17,6 +17,7 @@ const App = () => {
   const [game, setGame] = useState(initialGameState);
   const [word, setWord] = useState({ str: "", revealed: []});
   const [wrongGuesses, setWrongGuesses] = useState([]); 
+  const [usedLetters, setUsedLetters] = useState([]);
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
@@ -28,7 +29,6 @@ const App = () => {
     let newWord2 = newWord.split("").map(letter => "");
     setWord({str: newWord, revealed: newWord2})
       console.log(newWord2);
-
    }
 
   return (
@@ -48,7 +48,7 @@ const App = () => {
             <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard usedLetters={usedLetters}/>
       </>
     )}
     </Wrapper>

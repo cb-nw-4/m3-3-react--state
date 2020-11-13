@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState }from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -7,34 +7,45 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
+import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
 const initialGameState = { started: false, over: false, win: false };
 
 const App = () => {
-
-  const [game, setGame] = React.useState(initialGameState);
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: []});
+  const [wrongGuesses, setWrongGuesses] = useState([]); 
 
   const handleStart = () => {
     setGame({ ...game, started: !game.started });
+    if(word.str === "") {getNewWord()}
   };
+
+  const getNewWord = () => {
+    let newWord = words[Math.floor(Math.random() * words.length)];
+    let newWord2 = newWord.split("").map(letter => "");
+    setWord({str: newWord, revealed: newWord2})
+      console.log(newWord2);
+
+   }
 
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button onClickFunc={handleStart}>Start</Button>
-        <Button>btn 2</Button>
+        {!game.started ? <Button onClickFunc={handleStart}>Start</Button> : <Button onClickFunc={handleStart}>Pause</Button>}
+        <Button>Reset</Button>
       </Nav>
       {game.started && (
       <>
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word}/>
           </RightColumn>
         </Container>
         <Keyboard />

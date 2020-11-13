@@ -71,7 +71,10 @@ const App = () => {
   const handleGuess = (ltr) => {
     setUsedLetters([...usedLetters, ltr]);
 
-    if (word.str.indexOf(ltr) === -1) {
+    // Convert word to lowercase to handle capitalized words.
+    const wordGuess = word.str.toLowerCase();
+
+    if (wordGuess.indexOf(ltr) === -1) {
       // Wrong guess
       guesses++;
       setWrongGuesses([...wrongGuesses, ltr]);
@@ -85,9 +88,10 @@ const App = () => {
       let revealedLetters = word.revealed;
 
       word.str.split('').forEach((letter, index) => {
-        if (letter === ltr) {
-          revealedLetters[index] = ltr;
+        if (letter.toLowerCase() === ltr) {
+          revealedLetters[index] = letter;
         }
+
       });
 
       setWord({...word, revealed: revealedLetters});

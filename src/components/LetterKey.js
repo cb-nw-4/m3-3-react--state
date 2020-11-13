@@ -2,9 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
+import letters from '../data/letters.json';
+import RandomKey from './RandomKey';
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+const LetterKey = (props) => {
+  return (
+    <>
+    {letters.map(letter => {
+
+      if (props.usedLetters.indexOf(letter) === -1) {
+        return <Wrapper value={letter} onClick={e => props.handleGuess(e.target.value)} key={RandomKey()}>{letter}</Wrapper>
+      } else {
+        return <Wrapper value={letter} onClick={e => props.handleGuess(e.target.value)} key={RandomKey()} disabled>{letter}</Wrapper>
+      }
+    })}
+    </>);
 };
 
 const Wrapper = styled.button`

@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "./GlobalStyles";
 
-const DeadMan = () => {
+const DeadMan = (props) => {
   return (
-    <SVG>
+    <SVG stroke={props.stroke}>
       {/* Structure */}
       <line x1="60" y1="20" x2="200" y2="20" />
       <line x1="200" y1="20" x2="200" y2="70" />
@@ -38,17 +38,44 @@ const SVG = styled.svg`
   stroke-width: 4px;
   stroke-linecap: round;
 
-  .head,
-  .body,
-  .left-arm,
-  .right-arm,
-  .left-leg,
-  .right-leg,
-  .left-hand,
-  .right-hand,
-  .left-foot,
+  .head {
+    stroke: ${(props) => props.stroke[0]};
+  }
+
+  .body {
+    stroke: ${(props) => props.stroke[1]};
+  }
+
+  .left-arm {
+    stroke: ${(props) => props.stroke[2]};
+  }
+  
+  .right-arm {
+    stroke: ${(props) => props.stroke[3]};
+  }
+
+  .left-leg {
+    stroke: ${(props) => props.stroke[4]};
+  }
+
+  .right-leg {
+    stroke: ${(props) => props.stroke[5]};
+  }
+
+  .left-hand {
+    stroke: ${(props) => props.stroke[6]};
+  }
+
+  .right-hand {
+    stroke: ${(props) => props.stroke[7]};
+  }
+
+  .left-foot {
+    stroke: ${(props) => props.stroke[8]};
+  }
+
   .right-foot {
-    /* stroke: transparent; */
+    stroke: ${(props) => props.stroke[9]};
   }
 `;
 

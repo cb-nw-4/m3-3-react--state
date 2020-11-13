@@ -1,7 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import RandomKey from './RandomKey';
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = (props) => {
+  return (
+    <Wrapper>
+      {props.word.map(char => {
+
+        if (char.length === 0) {
+          return <Span key={RandomKey()} line />
+        } else {
+          return <Span key={RandomKey()}>{char}</Span>;
+        }
+      })}
+    </Wrapper>);
+}
 
 const Wrapper = styled.p`
   font-size: 20px;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { colors } from "./GlobalStyles";
 
 const Button = ({ onClickFunc, children }) => (
-  <Wrapper onClick={onClickFunc}>{children}</Wrapper>
+  <Wrapper onClick={onClickFunc}>{children} </Wrapper>
 );
 
 const Wrapper = styled.button`

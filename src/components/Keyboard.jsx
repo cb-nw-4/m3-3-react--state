@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import LetterKey from "./LetterKey";
+import letters from "../data/letters.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
+const Keyboard = ({ usedLetters }) => (
   <Wrapper>
-    <LetterKey />
+    {letters.map((letter) => {
+      return (
+        <LetterKey disabled={usedLetters.includes(letter)} letter={letter} />
+      );
+    })}
+    ;
   </Wrapper>
 );
 

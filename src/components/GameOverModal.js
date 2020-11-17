@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Button from "./Button";
 import { colors } from "./GlobalStyles";
 
-const GameOverModal = ({}) => {
+const GameOverModal = ({ game, word, handleReset }) => {
   return (
     <Wrapper>
       <Content>
-        <Heading>You ___ !!🤩😱</Heading>
-        <Word>👉 the word 👈</Word>
-        <Button>btn 3</Button>
+        <Heading>You {`${game.win ? "win" : "lose"}`} !!🤩😱</Heading>
+        <Word>👉 {word.str} 👈</Word>
+        <Button onClickFunc={handleReset}>New Game</Button>
       </Content>
     </Wrapper>
   );

@@ -231,21 +231,20 @@ Lift state up in the following examples
 <Timer />
 
 ```jsx live=true
-const Counter = () => {
-  const [count, setCount] = React.useState(0);
-
+const Counter = (props) => {
   return (
     <>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => props.setCount(props.count + 1)}>Increment</button>
     </>
   );
 };
 
 const App = () => {
+  const [count, setCount] = React.useState(0);
   return (
     <>
-      The current count is: ???
-      <Counter />
+      {`The current count is: ${count}`};
+      <Counter count={count} setCount={setCount} />
     </>
   );
 };
@@ -256,8 +255,8 @@ render(<App />);
 ---
 
 ```jsx live=true
-const FavouriteFood = () => {
-  const [food, setFood] = React.useState("");
+const FavouriteFood = (props) => {
+  
 
   return (
     <>
@@ -266,30 +265,31 @@ const FavouriteFood = () => {
           type="radio"
           name="food"
           value="pizza"
-          checked={food === "pizza"}
-          onChange={() => setFood("pizza")}
+          checked={props.food === "pizza"}
+          onChange={() => props.setFood("pizza")}
         />
-        Pizza
+        {`Pizza`}
       </label>
       <label>
         <input
           type="radio"
           name="food"
           value="broccoli"
-          checked={food === "broccoli"}
-          onChange={() => setFood("broccoli")}
+          checked={props.food === "broccoli"}
+          onChange={() => props.setFood("broccoli")}
         />
-        Broccoli
+        {`Broccoli`}
       </label>
     </>
   );
 };
 
 const App = () => {
+  const [food, setFood] = React.useState("");
   return (
     <>
       <p>My favourite food is: ???</p>
-      <FavouriteFood />
+      <FavouriteFood food={food} setFood={setFood}/>
     </>
   );
 };

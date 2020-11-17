@@ -4,9 +4,20 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
+import letters from "../data/letters.json";
+
+const Keyboard = ({ handleLetterClick, usedLetters }) => (
   <Wrapper>
-    <LetterKey />
+    {letters.map((letter, i) => {
+      return (
+        <LetterKey
+          key={i}
+          letter={letter}
+          onClick={handleLetterClick}
+          usedLetters={usedLetters}
+        />
+      );
+    })}
   </Wrapper>
 );
 

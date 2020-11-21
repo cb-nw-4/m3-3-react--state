@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Children, useState} from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -6,29 +6,96 @@ import Deadman from "./DeadMan";
 import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
+import words from "../data/words.json";
+import letters from "../data/letters.json";
+
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, over: false, win: false };
+let guesses = 0;
+
 const App = () => {
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [status, setStatus] = useState('Start');
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+
+  const handleStart = () => {
+    setGame({...game, started:!game.started});
+    getNewWord();
+    setStatus('Pause');
+    if(status === 'Pause'){
+      setStatus('Continue');
+    }
+  }
+
+  const getNewWord = () => {
+    if(!word.str){
+      let randomWord = words[Math.floor(Math.random() * words.length)];
+      setWord({ str: randomWord, revealed: randomWord.split('').map((letter) => {return letter = ''}) });
+    }
+  }
+
+  const handleGuess = (ltr) => {
+    setUsedLetters(usedLetters.concat(ltr));
+    let index = word.str.indexOf(ltr);
+    if(index===-1){
+      setWrongGuesses(wrongGuesses.concat(ltr));
+      guesses++;
+      if(guesses>9){
+        handleEndGame(false);
+      }
+    }else{
+      let newArray = [...word.revealed];
+      newArray[index]=ltr;
+      for(let i=0; i<word.str.length; i++){
+        if(word.str[i]=== ltr){
+          newArray[i]=ltr;
+        }
+      }
+      setWord({...word, revealed:newArray });
+      if(word.str=== newArray.toString().replace(new RegExp(',','g'), "")){
+        handleEndGame(true);
+      }
+    }
+  };
+
+  const handleReset = () =>{
+    setGame({initialGameState, started: true});
+    getNewWord();
+    setWrongGuesses([]);
+    setUsedLetters([]);
+    guesses = 0;
+  };
+
+  const handleEndGame = (win) => {
+    setGame({...game, over:true, win: win});
+    alert(`Game Over! You ${win ? "win" : "lose"}`);
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        <Button onClickFunc={handleStart} >{status}</Button>
+        <Button onClickFunc={handleReset}>RESET</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word}/>
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard letters={letters} usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
+      )}
     </Wrapper>
   );
 };

@@ -4,9 +4,13 @@ import LetterKey from "./LetterKey";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
+const Keyboard = ({letters,usedLetters,handleGuess}) => (
   <Wrapper>
-    <LetterKey />
+    {
+    letters.map((letter)=>{
+      return <LetterKey letter={letter} usedLetters={usedLetters} key={letter} handleGuess={handleGuess}/>
+    }) 
+  }
   </Wrapper>
 );
 

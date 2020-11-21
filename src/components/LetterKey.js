@@ -3,8 +3,20 @@ import styled from "styled-components";
 
 import { colors } from "./GlobalStyles";
 
-const LetterKey = ({}) => {
-  return <Wrapper>a</Wrapper>;
+const LetterKey = ({letter,usedLetters,handleGuess}) => {
+
+  let key=0;
+  const letterPicked = ()=>{
+    handleGuess(letter);
+  };
+
+
+  return (
+    <>
+    {usedLetters.find(usedLetter => usedLetter===letter)? 
+    <Wrapper disabled key={key++}>{letter}</Wrapper>:<Wrapper onClick={letterPicked} key={key++}>{letter}</Wrapper>}
+    </>
+  )
 };
 
 const Wrapper = styled.button`
@@ -21,11 +33,9 @@ const Wrapper = styled.button`
   margin: 4px;
   font-size: 32px;
   transition: all linear 400ms;
-
   &:hover {
     background: ${colors.fuchsia};
   }
-
   &:disabled,
   &:hover:disabled {
     background: #707070;

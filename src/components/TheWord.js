@@ -1,7 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = (props) => {
+let key = 0;
+
+return (<Wrapper>
+{
+  props.word.revealed.map((letter)=>{
+    if(letter===""){
+      return <Span line key={key++}></Span>;
+    }else{
+      return <Span key={key++}>{letter}</Span>;
+    }
+  })
+}
+
+  </Wrapper>)};
 
 const Wrapper = styled.p`
   font-size: 20px;

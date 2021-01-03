@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -9,26 +9,78 @@ import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
 
 import { colors, contentWidth } from "./GlobalStyles";
+import words from "../data/words.json";
+import letters from "../data/letters.json";
 
 const App = () => {
+  const initialGameState = { started: false, over: false, win: false };
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [startLabel, setStartLabel] = useState("Start");
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+
+  const handleGuess = (ltr) => {
+    console.log("isClassedf");
+    setUsedLetters([...usedLetters, ltr]);
+
+    const ltrIndex = word.str.search(ltr);
+    if (ltrIndex === -1){
+      setWrongGuesses([...wrongGuesses, ltr]);
+    }
+    else {
+      let revealedArrCopy = [...word.revealed];
+      revealedArrCopy[ltrIndex] = ltr;
+      setWord({...word, revealed: revealedArrCopy});
+    }
+  };
+
+  const handleStart = () => {
+    setGame( { ...game, started: !game.started } );
+    StartButtonLabel();
+    if (word.str === "")
+      getNewWord();
+  };
+
+  const getNewWord = () => {
+    const newWord = words[Math.floor(Math.random() * words.length)];
+    const newArr = Array(newWord.length).fill('');
+    setWord( { ...word, str: newWord, revealed: newArr} ); ; 
+  };
+
+  const StartButtonLabel = () => {  
+    if (game.over)  {
+      setStartLabel("Start");
+      return;
+    }
+
+    if (!game.started)
+      setStartLabel("Pause");
+    else 
+      setStartLabel("Continue");
+  };
+
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button onClickFunc={handleStart}>{startLabel}</Button>
         <Button>btn 2</Button>
       </Nav>
+      {game.started && (
       <>
         <Container>
           <Deadman />
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+          <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord word={word} />
           </RightColumn>
         </Container>
-        <Keyboard />
+        <Keyboard letters={letters} usedLetters={usedLetters} handleGuess={handleGuess}/>
       </>
+      )}
     </Wrapper>
   );
 };

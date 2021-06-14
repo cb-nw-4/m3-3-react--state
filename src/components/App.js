@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -7,31 +7,155 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
-
+import words from '../data/words.json';
+import letters from '../data/letters.json';
+import bodyParts from '../data/body-parts.json'; 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, pause: false, over: false, win: false };
+
 const App = () => {
+
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({str: ""});
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+  const classNameB = bodyParts;
+
+
+
+  const getNewWord = ()=>{
+    const str= words[Math.floor(Math.random() * words.length)];
+    const revealed = str.split("").map (char => char ="")
+    setWord({...word, str, revealed});
+  }
+
+  const handleStart = () => {
+    setGame({ ...game, started: !game.started });
+    getNewWord();
+  };
+
+  const handlePause = () => {
+    setGame({ ...game, pause: !game.pause });
+
+  };
+
+  const handleClassBody = (part) =>{
+    let classPart = classNameB[part];
+    part+= 1 ; 
+    return classPart
+  }
+
+  const handleGuess = (ltr) =>{
+    setUsedLetters ([...usedLetters, ltr]);
+ 
+    let splitWord = word.str.split("");
+
+    if(splitWord.includes(ltr)){
+      splitWord.forEach((char, i) =>{
+        if(char ===ltr){
+          let newObj = {...word};
+          newObj.revealed[i]=ltr;
+          setWord(newObj);
+
+        }
+      })
+    }else{
+      
+      setWrongGuesses([...wrongGuesses, ltr]);
+
+      //Handle Deadman part 
+
+      if(wrongGuesses.length <=9){
+        const bodyPart = handleClassBody(wrongGuesses.length);
+        const classBodyPart = document.getElementsByClassName(bodyPart);
+        classBodyPart[0].setAttribute('style',`stroke: ${colors.yellow}`);
+    }
+    }
+
+    let isDone = word.revealed.every(char => char !== '');
+
+    if((wrongGuesses.length <=9 ) && (isDone) ){
+      handleEndGame(true);
+
+    } else if(wrongGuesses.length ===10){
+
+      handleEndGame(false);
+    }
+    
+  }
+
+  const getdeadMan =() =>{
+    classNameB.map(part => {
+        const classBodyPart = document.getElementsByClassName(part);
+        return classBodyPart[0].setAttribute('style',`stroke: transparent`);
+    })
+  }
+
+
+  const handleReset =() =>{
+    setGame({ ...game, started: game.started});
+    getNewWord();
+    getdeadMan();
+    setWrongGuesses([]);
+    setUsedLetters([]);
+
+  }
+
+  const handleEndGame =(win) =>{
+    setGame({...game, over: !game.over, win: win});
+  }
+
+  const handleReStart = () =>{
+    window.location.reload()
+  }
+
   return (
+
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
-        <Button>btn 2</Button>
+        { !game.started && (<Button onClickFunc ={handleStart} >Start</Button>)}
+
+
+        { game.started && (<Button onClickFunc={handlePause}>{game.pause ? 'continue' : 'pause'}</Button>)}
+
+        
+        <Button onClickFunc={handleReset}>Reset</Button>
       </Nav>
-      <>
-        <Container>
-          <Deadman />
+      
+      {game.started && (
+        <> 
+          <Container>
+          <Deadman className={classNameB}/>
           <RightColumn>
-            <DeadLetters />
-            <TheWord />
+            <DeadLetters wrongGuesses={wrongGuesses}/>
+            <TheWord  word ={word} setWord={setWord} />
           </RightColumn>
-        </Container>
-        <Keyboard />
-      </>
+          </Container>
+          <Keyboard 
+              word={word} setWord={setWord} 
+              letters={letters} usedLetters={usedLetters} 
+              handleGuess={handleGuess} handleEndGame={handleEndGame}/>
+        </>
+
+      )}
+
+      {game.over && (
+        <GameOverModal 
+            word ={word} game={game}
+            handleReStart={handleReStart}/>
+      )
+      
+      }
+        
     </Wrapper>
   );
+
 };
+
+
 
 const Wrapper = styled.div`
   background-color: ${colors.blue};

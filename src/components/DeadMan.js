@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "./GlobalStyles";
 
-const DeadMan = () => {
+const DeadMan = ({className}) => {
   return (
     <SVG>
       {/* Structure */}
@@ -27,8 +27,12 @@ const DeadMan = () => {
       <ellipse cx="112" cy="338" rx="10" ry="18" className="left-foot" />
       <ellipse cx="288" cy="338" rx="10" ry="18" className="right-foot" />
     </SVG>
+
+    
   );
 };
+
+
 
 const SVG = styled.svg`
   height: 400px;
@@ -48,8 +52,10 @@ const SVG = styled.svg`
   .right-hand,
   .left-foot,
   .right-foot {
-    /* stroke: transparent; */
+   stroke: transparent; 
   }
+
+ 
 `;
 
 export default DeadMan;
